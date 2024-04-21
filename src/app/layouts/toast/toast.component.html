@@ -1,0 +1,15 @@
+<!-- toast.component.html -->
+
+<div class="toasts">
+    <div *ngIf="toast" class="toast-notification {{ toast.animation }}">
+        <div class="toast-content">
+            <div class="toast-icon" [style.backgroundColor]="toast.iconColor">
+                <i class="{{ toast.icon }}"></i>
+            </div>
+            <div class="toast-msg">{{ toast.msg }}</div>
+        </div>
+        <div class="toast-progress">
+            <div class="toast-progress-bar"></div>
+        </div>
+    </div>
+</div>

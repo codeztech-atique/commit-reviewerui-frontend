@@ -1,0 +1,72 @@
+<app-notification></app-notification>
+
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb float-xl-end">
+	<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+	<li class="breadcrumb-item"><a href="javascript:;">Issues</a></li>
+	<li class="breadcrumb-item active">Close Issue</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Close Issue (Customer) <small>List of all the close issue...</small></h1>
+<!-- END page-header -->
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-12 -->
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<panel title="Close issue" footerClass="pb-0 pt-20px">
+
+			<div class="table-responsive mb-3">
+				<table class="table table-hover table-panel text-nowrap align-middle mb-0">
+					<thead>
+						<tr>
+							<!-- <th></th> -->
+							<th>Ticket no</th>
+							<th>Ticket create date</th>
+							<th>Order no</th>
+							<th>Order create date</th>
+							<th>Closed by</th>
+							<th>Status</th>
+							<th>Download</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>SAAP-1093</td>
+							<td>Sat 28 Nov, 12:23pm</td>
+							<td><a routerLink="/extra/order-details" class="fw-bold">#1950</a></td>
+							<td>Thu 26 Nov, 12:23pm</td>
+							<td>Ram Tagor</td>
+							<td><span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Completed</span></td>
+							<td><a href="javascript:;" [swal]="['Success', 'abc.xls successfully downloaded', 'success']" class="btn btn-success me-1">Click here</a></td>
+						</tr>
+						<tr>
+							<td>SAAP-3093</td>
+							<td>Sun 29 Nov, 12:23pm</td>
+							<td><a routerLink="/extra/order-details" class="fw-bold">#1949</a></td>
+							<td>Thu 26 Nov, 11:54am</td>
+							<td>Raj Dhinga</td>
+							<td><span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Completed</span></td>
+							<td><a href="javascript:;" [swal]="['Success', 'bnb.xls successfully downloaded', 'success']" class="btn btn-success me-1">Click here</a></td>
+						</tr>
+						<tr>
+							<td>SAAP-2052</td>
+							<td>Mon 31 Oct, 12:23pm</td>
+							<td><a routerLink="/extra/order-details" class="fw-bold">#1948</a></td>
+							<td>Thu 25 Nov, 11:54pm</td>
+							<td>Sam Karan</td>
+							<td><span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Completed</span></td>
+							<td><a href="javascript:;" [swal]="['Success', 'abc.xls successfully downloaded', 'success']" class="btn btn-success me-1">Click here</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</panel>
+		<!-- END panel -->
+	</div>
+	<!-- END col-12 -->
+</div>
+<!-- END row -->
+

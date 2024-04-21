@@ -1,0 +1,338 @@
+<app-notification></app-notification>
+<app-toast></app-toast>
+<!-- Notification -->
+
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb float-xl-end">
+	<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+	<li class="breadcrumb-item"><a href="javascript:;">Files</a></li>
+	<li class="breadcrumb-item active">Upload</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Upload File
+	<small>{{supportFile}}</small>
+</h1>
+<!-- END page-header -->
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-12 -->
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<panel title="Create request">
+			<!-- <ng-container header>
+				<h4 class="panel-title">Current plan - 
+					<span class="badge bg-yellow ms-1 cl-black">{{this.userCurrentPlan}}</span>
+				</h4>
+			</ng-container> -->
+			<div class="nav-wizards-container">
+				<nav class="nav nav-wizards-1 mb-2">
+				  <!-- completed -->
+				  <div class="nav-item col" *ngFor="let step of customSteps; let i = index">
+					<a class="nav-link {{step.status}}" href="javascript:void(0)">
+					  <div class="nav-no">{{step.stepNo}}</div>
+					  <div class="nav-text">{{step.stepName}}</div>
+					</a>
+				  </div>
+				</nav>
+			  </div>
+			  
+			  <div class="card">
+				<div class="card-body">
+					<div class="row mb-15px">	
+						<div class="input-group">
+							Current Status: <span class="badge bg-success ms-1">{{currentStatus.stepName}} in progress</span>		
+						</div>	
+					</div>
+
+					<!-- <div class="row mb-15px">	
+						<div class="input-group">
+							<span class="input-group-text">Current plan</span>
+							<input type="text" class="form-control" [(ngModel)]="userCurrentPlan" [disabled]="true"/>
+							<span>{{userCurrentPlan}}</span>
+						</div>
+						<span class="input-group-error">{{customLink_Error_3}}</span>	
+					</div> -->
+                    
+					<!-- Please select category with dropdown -->
+					<div class="row mb-15px">	
+						<div class="input-group">
+							<span class="input-group-text input-group-width-xl">Select category</span>
+							
+							<div #selectCatagory class="form-control picker" [ngClass]="{'disabled-attibutes': userCurrentPlanExpires==true}" (click)="showDropDownCategory()">
+								<span class="pc-select">
+									<span *ngIf="!selectedCategoryName" class="pc-element pc-trigger">Select value</span>
+									<span *ngIf="selectedCategoryName" class="pc-element pc-trigger"><i class="{{selectedCategoryIcon}}"></i> {{selectedCategoryName}}</span>
+									<span class="pc-list" *ngIf="showCategory">
+										<ul *ngFor="let category of categoryList; let i = index">
+											<li data-order="{{index}}" (click)="chooseCategory(category)"><i class="{{category.iconType}}"></i> {{category.categoryName}}</li>
+										</ul>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Customer Choices Approximate Time Lines -->
+					<div class="row mb-15px" *ngIf="selectedCategoryIcon">	
+						<div class="input-group">
+							<span class="input-group-text input-group-width-xl">Approximate timeline</span>
+							<!-- For Freemium, Base and Pro Plan Enable Only Project Request -->
+							<input *ngIf="!showDropdown" type="text" class="form-control" value="{{selectedTimeline}}" disabled/>
+							
+							<!-- For enterprise plan enable Project and Quick request both -->
+							<div *ngIf="showDropdown" #selectApproxTimeline class="form-control picker" (click)="showApproximateTimeline()">
+								<span class="pc-select">
+									<span *ngIf="!selectedTimeline" class="pc-element pc-trigger">Select value</span>
+									<span *ngIf="selectedTimeline" class="pc-element pc-trigger"> {{selectedTimeline}}</span>
+									<span class="pc-list" *ngIf="showTimeline">
+										<ul *ngFor="let timeline of timeLineList; let i = index">
+											<li data-order="{{index}}" (click)="chooseTimeline(i, timeline)"> {{timeline.selectedTimeline}}</li>
+										</ul>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- Customer Choices Approximate Time Lines -->
+
+					<!-- Do you have file -->
+					<div class="row mb-15px" *ngIf="selectedCategoryIcon">	
+						<div class="input-group">
+							<span class="input-group-text input-group-width-xl">Do you have a file ?</span>
+							
+							<div class="form-control picker" #doYouHaveFile [ngClass]="{'disabled-attibutes': isFileUploaded==true}" (click)="showCustomerHasFile()">
+								<span class="pc-select">
+									<span *ngIf="!selectedFilePresent" class="pc-element pc-trigger">Select value</span>
+									<span *ngIf="selectedFilePresent" class="pc-element pc-trigger"> {{selectedFilePresent}}</span>
+									<span class="pc-list" *ngIf="showOrderHasFile">
+										<ul *ngFor="let haveFile of doYouHaveAfile; let i = index">
+											<li data-order="{{index}}" (click)="onChangeCustomerChoices(i, haveFile)"> {{haveFile}}</li>
+										</ul>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- Do you have file -->
+
+					<!-- Wanted to upload file or custom links -->
+					<div class="row mb-15px" *ngIf="isFileProvidedByCustomer">	
+						<div class="input-group">
+							<span class="input-group-text input-group-width-xl">What you want to upload ?</span>
+							
+							<div #fileOrLink class="form-control picker" [ngClass]="{'disabled-attibutes': isFileUploaded==true}" (click)="showOrderCustomFileLinks()">
+								<span class="pc-select">
+									<span class="pc-element pc-trigger"> {{orderCustomLinks}}</span>
+									<span class="pc-list" *ngIf="showCustomFileLinks">
+										<ul *ngFor="let choices of wantedToUpload; let i = index">
+											<li data-order="{{index}}" (click)="onChangeCustomerChoices_FileMode(i, choices)"> {{choices}}</li>
+										</ul>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-15px" *ngIf="isFileProvidedByCustomer === true && isCustomFileProvided === true">
+						<div class="panel-body">
+						  <div class="row fileupload-buttonbar">
+							 <div class="col-xl-7">
+							   <span class="btn btn-primary fileinput-button me-1">
+								 <i class="fa fa-fw fa-plus"></i>
+								 <span>Add files...</span>
+								 <input type="file" name="files[]" onclick="value = null" (change)="getFileDetails($event.target.files)" accept="{{acceptFile}}" [(ngModal)]="fileInfo" multiple >
+							   </span>
+
+							   <button type="submit" class="btn btn-primary start me-1" (click)="uploadAll()" [disabled]="fileUploadButtonStatus">
+								 <i class="fa fa-fw fa-upload"></i>
+								 <span>Upload all</span>
+							   </button>
+
+							   <button type="button" class="btn btn-danger delete me-1" (click)="confirm_deleteAllFiles()" [disabled]="fileDeleteButtonStatus" >
+								 <i class="fa fa-fw fa-trash"></i>
+								 <span>Delete all</span>
+							   </button>
+
+							   <div *ngIf="customError != null" class="row mb-15px">	
+									<span class="input-group-error">{{customError}}</span>
+							    </div>
+							   <!-- The global file processing state -->
+							   <span class="fileupload-process"></span>
+							 </div>
+							 
+							 <!-- The global progress state -->
+							 <div class="col-xl-5 fileupload-progress fade d-none d-xl-block">
+							   <!-- The global progress bar -->
+							   <div class="progress progress-striped active">
+								 <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+							   </div>
+							   <!-- The extended global progress state -->
+							   <div class="progress-extended"> </div>
+							 </div>
+						  </div>
+						</div>
+
+						<!-- For File Upload View -->
+						<div class="table-responsive">
+							<table class="table table-panel text-nowrap mb-0">
+								<thead>
+									<tr *ngIf="this.fileInfoLength > 0">
+										<th width="10%">PREVIEW</th>
+										<th>FILE INFO</th>
+										<th>UPLOAD PROGRESS</th>
+										<th width="1%"></th>
+									</tr>
+								</thead>
+								<tbody class="files">
+									<tr data-id="empty" style="display: none;">
+										<td colspan="4" class="text-center text-gray-500 py-30px">
+											<div class="mb-10px"><i class="fa fa-file fa-3x"></i></div>
+											<div class="fw-bold">No file selected</div>
+										</td>
+									</tr>
+									<tr *ngFor="let files of this.fileInfo.entries(); let i = index" class="template-upload fade show in">
+										<td>
+											<div class="bg-light rounded p-3 mb-2">
+												<dl class="mb-0">
+													<dt class="text-dark">
+														<img class="img-preview" src="../../../../../assets/img/transparent/file.png" />
+													</dt>
+													<hr>
+													<dt class="text-dark mt-10px">File Type:</dt>
+													<dd class="size mb-0">{{files[1].name.split('.').pop()}}</dd>
+												</dl>
+											</div>
+										</td>
+										<td>
+											<div class="bg-light rounded p-3 mb-2">
+												<dl class="mb-0">
+													<dt class="text-dark">File Name:</dt>
+													<dd class="name">{{files[1].name}}</dd>
+													<hr>
+													<dt class="text-dark mt-10px">File Size:</dt>
+													<dd class="size mb-0">{{formatByte(files[1].size)}}</dd>
+												</dl>
+											</div>
+											<strong class="error text-danger h-auto d-block text-left"></strong>
+										</td>
+										<td>
+											<dl>
+												<dt class="text-dark mt-3px">
+													<span *ngIf="i == 0 && pecentage_0 == '100'" id="status-completed-{{i}}">Completed</span>
+													<span *ngIf="i == 0 && pecentage_0 != '100'" id="status-progress-{{i}}">Progress</span>
+													<span *ngIf="i == 1 && pecentage_1 == '100'" id="status-completed-{{i}}">Completed</span>
+													<span *ngIf="i == 1 && pecentage_1 != '100'" id="status-progress-{{i}}">Progress</span>
+													<span *ngIf="i == 2 && pecentage_2 == '100'" id="status-completed-{{i}}">Completed</span>
+													<span *ngIf="i == 2 && pecentage_2 != '100'" id="status-progress-{{i}}">Progress</span>
+                                                </dt>
+												<dd class="mt-5px">
+													<div class="progress progress-sm progress-striped active rounded-pill">
+														<div *ngIf="i == 0" id="progress-bar-{{i}}" class="progress-bar progress-bar-primary" [ngStyle]="{'width': pecentage_0+'%', 'min-width': '40px'}">{{pecentage_0}}%</div>
+														<div *ngIf="i == 1" id="progress-bar-{{i}}" class="progress-bar progress-bar-primary" [ngStyle]="{'width': pecentage_1+'%', 'min-width': '40px'}">{{pecentage_1}}%</div>
+														<div *ngIf="i == 2" id="progress-bar-{{i}}" class="progress-bar progress-bar-primary" [ngStyle]="{'width': pecentage_2+'%', 'min-width': '40px'}">{{pecentage_2}}%</div>
+													</div>
+												</dd>
+											</dl>
+										</td>
+										<td *ngIf="i == 0" nowrap="">
+											<button id="start-upload-{{i}}" class="btn btn-primary start w-100px pe-20px mb-2 d-block" (click)="uploadSpecificFile(i)" [disabled]="disabled_start_file_0">
+												<i class="fa fa-upload fa-fw text-dark"></i>
+												<span>Start</span>
+											</button>
+										
+											<button id="delete-file-{{i}}" class="btn btn-danger cancel w-100px pe-20px d-block" (click)="confirm_deleteSpecificFiles(i)" [disabled]="disabled_delete_file_0">
+												<i class="fa fa-trash fa-fw text-muted"></i>
+												<span>Delete</span>
+											</button>
+										</td>
+										<td  *ngIf="i == 1" nowrap="">
+											<button id="start-upload-{{i}}" class="btn btn-primary start w-100px pe-20px mb-2 d-block" (click)="uploadSpecificFile(i)" [disabled]="disabled_start_file_1">
+												<i class="fa fa-upload fa-fw text-dark"></i>
+												<span>Start</span>
+											</button>
+										
+											<button id="delete-file-{{i}}" class="btn btn-danger cancel w-100px pe-20px d-block" (click)="confirm_deleteSpecificFiles(i)" [disabled]="disabled_delete_file_1">
+												<i class="fa fa-trash fa-fw text-muted"></i>
+												<span>Delete</span>
+											</button>
+										</td>
+										<td  *ngIf="i == 2" nowrap="">
+											<button id="start-upload-{{i}}" class="btn btn-primary start w-100px pe-20px mb-2 d-block" (click)="uploadSpecificFile(i)" [disabled]="disabled_start_file_2">
+												<i class="fa fa-upload fa-fw text-dark"></i>
+												<span>Start</span>
+											</button>
+										
+											<button id="delete-file-{{i}}" class="btn btn-danger cancel w-100px pe-20px d-block" (click)="confirm_deleteSpecificFiles(i)" [disabled]="disabled_delete_file_2">
+												<i class="fa fa-trash fa-fw text-muted"></i>
+												<span>Delete</span>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+					    </div>
+						<!-- File Uplaod View ended -->
+					</div>
+
+					
+					<div class="row mb-15px" *ngIf="isFileProvidedByCustomer === true && isCustomFileProvided === false">	
+						<div class="input-group">
+							<span class="input-group-text">*link</span>
+							<input type="text" class="form-control" (keyup)="customLinks_1($event.target.value)" [(ngModal)]="customLink_1" placeholder="Enter your url" />
+						</div>
+						<span class="input-group-error">{{customLink_Error_1}} this is a mandatory field !!!</span>	
+					</div>
+
+					<div class="row mb-15px" *ngIf="isFileProvidedByCustomer === true && isCustomFileProvided === false">	
+						<div class="input-group">
+							<span class="input-group-text">link</span>
+							<input type="text" class="form-control" (keyup)="customLinks_2($event.target.value)" [(ngModal)]="customLink_2" placeholder="Enter your url"  />
+						</div>
+						<span class="input-group-error">{{customLink_Error_2}}</span>	
+					</div>
+
+					<div class="row mb-15px" *ngIf="isFileProvidedByCustomer === true && isCustomFileProvided === false">	
+						<div class="input-group">
+							<span class="input-group-text">link</span>
+							<input type="text" class="form-control" (keyup)="customLinks_3($event.target.value)" [(ngModal)]="customLink_3" placeholder="Enter your url" />
+						</div>
+						<span class="input-group-error">{{customLink_Error_3}}</span>	
+					</div>
+
+					<div class="row mb-15px" *ngIf="isFileProvidedByCustomer === true && isCustomFileProvided === false">	
+						<div class="input-group">
+							<span class="input-group-text">link</span>
+							<input type="text" class="form-control" (keyup)="customLinks_4($event.target.value)" [(ngModal)]="customLink_4" placeholder="Enter your url" />
+						</div>
+						<span class="input-group-error">{{customLink_Error_4}}</span>
+					</div>
+
+					<div class="row mb-15px" *ngIf="isFileProvidedByCustomer === true && isCustomFileProvided === false">	
+						<div class="input-group">
+							<span class="input-group-text">link</span>
+							<input type="text" class="form-control" (keyup)="customLinks_5($event.target.value)" [(ngModal)]="customLink_5" placeholder="Enter your url" />
+						</div>
+						<span class="input-group-error">{{customLink_Error_5}}</span>
+					</div>
+
+					<div class="row mb-15px" *ngIf="isFileProvidedByCustomer === true || isFileProvidedByCustomer === false">	
+						<div class="input-group">
+							<textarea class="form-control" placeholder="Enter your work details" rows="6" (keyup)="onChangeWorkDetails($event.target.value)" [(ngModal)]="workDetails"></textarea>
+						</div>
+					</div>
+					
+					<div id="footer" class="app-footer mx-0 px-0 text-center">
+						<button type="button" class="btn btn-primary fixed-height" (click)="confirmSubmit()" [disabled]="isEnabledSubmit">
+							{{confirmButtonText}}
+							<div *ngIf="showLoader" class="loader loader--style3" title="2">
+								<img src="../../../../../assets/img/svg/loader.svg">
+							</div>
+						</button>
+					</div>
+			    </div>
+			  </div>
+		</panel>
+	</div>
+</div>

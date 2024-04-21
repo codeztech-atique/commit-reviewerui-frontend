@@ -1,0 +1,271 @@
+import * as global                               from './config/globals';
+import 'bootstrap';
+
+import { APP_INITIALIZER } from '@angular/core';
+
+// Core Module
+import { HttpClientModule }                      from '@angular/common/http';
+import { HTTP_INTERCEPTORS }                     from '@angular/common/http';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { DatePipe }                              from '@angular/common';
+import { BrowserAnimationsModule }               from '@angular/platform-browser/animations';
+import { BrowserModule, Title }                  from '@angular/platform-browser';
+import { NgModule }                              from '@angular/core';
+import { FormsModule, ReactiveFormsModule }      from '@angular/forms';
+import { DataTablesModule }                      from 'angular-datatables';
+import { DateAgoPipe }                           from './pipes/data-ago.pipe';
+import { PickerModule }                          from '@ctrl/ngx-emoji-mart';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
+// Routes
+
+import { AppRoutingModule }                      from './routes/app-routing.module';
+
+// Main Component
+import { AppComponent }                    from './app.component';
+import { HeaderComponent }                 from './layouts/header/header.component';
+import { SidebarComponent }                from './layouts/sidebar/sidebar.component';
+
+import { SidebarRightComponent }           from './layouts/sidebar-right/sidebar-right.component';
+import { PanelComponent }                  from './layouts/panel/panel.component';
+import { PanelChatComponent }              from './layouts/panel-chat/panel-chat.component';
+
+import { FloatSubMenuComponent }           from './layouts/float-sub-menu/float-sub-menu.component';
+
+// Component Module
+import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { CountdownModule }                          from 'ngx-countdown';
+import { HighlightModule, HIGHLIGHT_OPTIONS }       from 'ngx-highlightjs';
+import { NgApexchartsModule }              from 'ng-apexcharts';
+import { FullCalendarModule }              from '@fullcalendar/angular';
+import { ChatComponent }                   from './layouts/chat/chat.component';
+import { EditProfile }                     from './layouts/edit-profile/edit-profile.component';
+
+import dayGridPlugin                       from '@fullcalendar/daygrid';
+import timeGridPlugin                      from '@fullcalendar/timegrid';
+import interactionPlugin                   from "@fullcalendar/interaction";
+import listPlugin                          from '@fullcalendar/list';
+import bootstrapPlugin                     from '@fullcalendar/bootstrap';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  timeGridPlugin,
+  interactionPlugin,
+  listPlugin,
+  bootstrapPlugin
+]);
+
+import { LoadingBarRouterModule }          from '@ngx-loading-bar/router';
+import { CalendarModule, DateAdapter }     from 'angular-calendar';
+import { adapterFactory }                  from 'angular-calendar/date-adapters/date-fns';
+import { TrendModule }                     from 'ngx-trend';
+import { NgxDaterangepickerMd }            from 'ngx-daterangepicker-material';
+import { NgxChartsModule }                 from '@swimlane/ngx-charts';
+import { SweetAlert2Module }               from '@sweetalert2/ngx-sweetalert2';
+import { NgxEditorModule }                 from 'ngx-editor';
+import { ColorSketchModule }               from 'ngx-color/sketch';
+import { NgxDatatableModule }              from '@swimlane/ngx-datatable';
+import { PerfectScrollbarModule }          from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG }        from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
+
+// Customer Components
+import { Customer_Dashboard }                 from './components/customer/dashboard/dashboard';
+
+// Customer Upload
+import { Customer_FileUpload }                from './components/customer/files/file-upload/file-upload';
+import { Customer_QuickRequest_List }         from './components/customer/files/quick-request/quick-request';
+import { Customer_ProjectRequest_List }       from './components/customer/files/project-request/project-request';
+import { Customer_TaskDetails }               from './components/customer/files/task-details/task-details';
+
+// Customer Work
+import { Customer_ReviewWork }                from './components/customer/work/review-work/review-work';
+import { Customer_ReviewWorkDetails }         from './components/customer/work/review-work-details/review-work-details';
+import { Customer_CompletedWork }             from './components/customer/work/complete-work/complete-work';
+import { Customer_CompletedWorkDetails }      from './components/customer/work/completed-work-details/completed-work-details';
+
+// Customer Balance
+import { Customer_AddCredit }                 from './components/customer/balance/add-credit/add-credit';
+import { Customer_ManageCard }                from './components/customer/balance/manage-card/manage-card';
+import { Customer_ListTransaction }           from './components/customer/balance/list-transaction/list-transaction';
+
+// Customer Issues
+import { Customer_CreateIssue }               from './components/customer/issues/create-issue/create-issue';
+import { Customer_OpenIssue }                 from './components/customer/issues/open-issue/open-issue';
+import { Customer_CloseIssue }                from './components/customer/issues/close-issue/close-issue';
+
+
+// User Login / Register
+import { LoginPage }               from './auth/login/login';
+import { RegisterPage }            from './auth/register/register';
+import { ForgotPassword }          from './auth/forgot-password/forgot-password';
+import { ChangePassword }          from './auth/change-Password/change-password';     
+import { OtpPage }                 from './auth/otp/otp';   
+import { ToastComponent }          from './layouts/toast/toast.component'; 
+
+// Services
+import { SharedservicesService }     from './services/sharedservices.service';
+import { SocketioService }           from './services/socket.io.service';
+import { ToastService }              from './services/toast.service';
+import { IntroService }              from './services/intro.service';
+import { WebSocketService }          from './services/websockets.service';
+import { NotificationService }       from './services/notification.service';
+import { CommonService }             from './services/common.service';
+
+// Interceptor
+import { JwtInterceptor }            from './_helpers/jwt.interceptor';
+import { ErrorInterceptor }          from './_helpers/error.interceptor';
+
+// Signin for sign in with google and facebook
+import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { ChargebeeService } from './services/chargebee.service';
+
+@NgModule({
+  declarations: [
+    // Common Components
+    AppComponent,
+    HeaderComponent,
+    SidebarComponent,
+    SidebarRightComponent,
+    ToastComponent,
+    PanelComponent,
+    PanelChatComponent,
+    FloatSubMenuComponent,
+    // ThemePanelComponent,
+    DateAgoPipe,
+    ChatComponent,
+   
+    // Common Components
+    LoginPage,
+    RegisterPage,
+    ForgotPassword,
+    ChangePassword, 
+    OtpPage,
+    EditProfile,
+    
+    // Customer Components
+    Customer_Dashboard,
+    Customer_FileUpload,
+    Customer_QuickRequest_List,
+    Customer_ProjectRequest_List,
+    Customer_TaskDetails,
+    Customer_CompletedWork,
+    Customer_CompletedWorkDetails,
+    Customer_ReviewWork,
+    Customer_ReviewWorkDetails,
+    Customer_AddCredit,
+    Customer_ListTransaction,
+    Customer_ManageCard,
+    Customer_CreateIssue,
+    Customer_OpenIssue,
+    Customer_CloseIssue,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    CountdownModule,
+    ColorSketchModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
+    HttpClientModule,
+    FormsModule,
+    FullCalendarModule,
+    HighlightModule,
+    LoadingBarRouterModule,
+    NgbTooltipModule,
+    NgApexchartsModule,
+    NgbDatepickerModule,
+    NgbTimepickerModule,
+    NgxDatatableModule,
+    NgxEditorModule,
+    NgxChartsModule,
+    NgxDaterangepickerMd.forRoot(),
+    PerfectScrollbarModule,
+    ReactiveFormsModule,
+    SweetAlert2Module.forRoot(),
+    TrendModule,
+    DataTablesModule,
+    PickerModule,
+    SocialLoginModule
+  ],
+  providers: [ 
+    DatePipe,
+    SharedservicesService,
+    IntroService,
+    ToastService,
+    SocketioService,
+    WebSocketService,
+    NotificationService,
+    CommonService,
+    ChargebeeService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (appRouting: AppRoutingModule) => () => appRouting.initialize(),
+      deps: [AppRoutingModule],
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    Title, 
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }, {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        coreLibraryLoader: () => import('highlight.js/lib/core'),
+        lineNumbersLoader: () => import('highlightjs-line-numbers.js'), // Optional, only if you want the line numbers
+        languages: {
+          typescript: () => import('highlight.js/lib/languages/typescript'),
+          css: () => import('highlight.js/lib/languages/css'),
+          xml: () => import('highlight.js/lib/languages/xml')
+        }
+      }
+    }, {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '249461109105-88jaj51i99v1di3ibldqd1fq5pujim4l.apps.googleusercontent.com',
+              {
+                oneTapEnabled: false,
+              }
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('6761404970558917')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    } 
+  ],
+  bootstrap: [ AppComponent ]
+})
+
+export class AppModule {
+  constructor(private router: Router, private titleService: Title, private route: ActivatedRoute) {
+    router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        const firstChild = this.route.snapshot.firstChild;
+        if (firstChild && firstChild.data && firstChild.data['title']) {
+          const title = 'Analysts 24 X 7 | ' + firstChild.data['title'];
+          this.titleService.setTitle(title);
+        }
+      }
+    });
+  }
+}

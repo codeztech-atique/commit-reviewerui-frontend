@@ -1,0 +1,28 @@
+.input-icons {
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+}
+
+.icon {
+    position: absolute;
+    bottom: 15px;
+    margin-left: 4px;
+}
+
+.completed-reject > .nav-no {
+    border-color: red !important;
+    color: red !important;
+}
+
+.completed-reject > .nav-text {
+    color: red;
+}
+
+.nav-link.completed-reject::after {
+    background: red !important;
+}
+
+.nav-link.completed-reject::before {
+    background: red !important;
+}

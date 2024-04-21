@@ -1,0 +1,485 @@
+<input type="checkbox" id="check" (change)="showChat($event)"> 
+<div class="width: 100%; height: 100%;">
+   <div class="analysts-bubble-container">
+      <div id="chat-icon" class="analysts-icon-right">
+         <img src="{{imageHeaderMessage}}" style="width: 131px; height: 131px;">
+      </div>
+   </div>
+</div>
+<div class="analysts-min-chat-icon">
+    <span *ngIf="totalUnreadMessageCount > 0 && !showChatPopup" class="analysts-badge analysts-flex analysts-flex-center analysts-flex-middle analysts-min-badge">
+        {{totalUnreadMessageCount}}
+    </span>
+    <span>
+        <!-- <img id="chat-btn" for="check" src="{{imageName}}" alt="Chat attention grabber"> -->
+        <label id="chat-btn" for="check" [ngStyle]="{'background-image': 'url(' + imageName + ')'}"> 
+            <i class="fa fa-commenting-o comment"></i> 
+            <i class="fa fa-close close"></i> 
+        </label> 
+    </span>
+</div>
+
+
+<panel-chat *ngIf="showChatPopup" title="Let's chat" class="wrapper h-70 d-flex flex-column">
+    <!-- <div class="header"> 
+        <h6>Let's Chat - Online</h6> 
+    </div>  -->
+
+    <div class="row chat-panel">
+            <!-- BEGIN col-12 -->
+            <div class="col-12">
+                <div class="chat-area">
+                    <div class="chatlist">
+                        <div class="widget-input-box search-orders">
+                            <input type="text" placeholder="Search order by category name" class="form-control search-icon" (keyup)="searchChat($event.target.value)">
+                        </div>
+                        <div class="widget-list rounded chat-listof-users">
+                            <div class="widget-list-item" *ngIf="this.userInfo['custom:role'] == 'customer'" style="border-top: 1px solid var(--app-component-border-color)">
+                                <div class="widget-list-media-0" (click)="analysts24x7ChatBot()">
+                                    <img class="company-chat-logo" src="{{logo}}" width="50" alt="Analysts24x7" class="img-rounded">
+                                </div>
+                                <div class="widget-list-content-0 ps-r" (click)="analysts24x7ChatBot()">
+                                    <h4 class="widget-list-title">Analysts24x7</h4>
+                                    <!-- <span _ngcontent-qql-c108="" class="badge new-message-badge">5</span> -->
+                                    <p class="widget-list-desc">Ask me anything</p>
+                                </div>
+                            </div>
+
+                            <span *ngIf="chatRequestIds">
+                                <div class="widget-list-item ps-r"
+                                *ngFor="let orders of chatRequestIds.result; let i = index" style="border-top: 1px solid var(--app-component-border-color)">
+                                    <div [ngClass]="[ showChatPopup ? 'widget-list-media-'+(i+1): '']">
+                                        <img src="{{ordersImage}}" width="50" class="img-rounded" (click)="getChatHistory(i+1, orders, false)">
+                                    </div>
+
+                                    <div [ngClass]="[ showChatPopup ? 'widget-list-content-'+(i+1): '']" (click)="getChatHistory(i+1, orders, false)">
+                                        <h4 class="widget-list-title">Order Id #{{orders.id | slice: -5 }}</h4>
+                                        <!-- <span _ngcontent-qql-c108="" class="badge new-message-badge">5</span> -->
+
+                                        <span _ngcontent-qql-c108="" *ngIf="this.unreadMessagePerUser.hasOwnProperty(orders.id) && this.unreadMessagePerUser[orders.id] > 0" class="badge new-message-badge">
+                                            <span *ngIf="this.unreadMessagePerUser[orders.id] <= 9" class="new-message-badge-1">{{this.unreadMessagePerUser[orders.id]}}</span>
+                                            <span *ngIf="this.unreadMessagePerUser[orders.id] > 9 && this.unreadMessagePerUser[orders.id] < 100" class="new-message-badge-2">{{this.unreadMessagePerUser[orders.id]}}</span>
+                                            <span *ngIf="this.unreadMessagePerUser[orders.id] > 99" class="new-message-badge-3">99+</span>
+                                        </span>
+                                        <p class="widget-list-desc">Category - {{orders.category.name}}</p>
+                                    </div>
+                                </div>
+                            </span>
+                           
+
+                            <div *ngIf="this.userInfo['custom:role'] != 'customer'" class="widget-list-header-item" style="border-top: 1px solid var(--app-component-border-color)">
+                                <div class="widget-list-content-">
+                                    <h4 class="widget-list-title segment-2">Talk to Analysts</h4>
+                                    <p class="widget-list-desc segment-2">Start new chat</p>
+                                </div>
+                            </div>
+
+                            <span *ngIf="this.userInfo['custom:role'] != 'customer'">
+                                <div class="widget-list-item ps-r"
+                                *ngFor="let analysts of chatAnalystsInfo.result.Items; let i = index" style="border-top: 1px solid var(--app-component-border-color)">
+                                    <div [ngClass]="[ showChatPopup ? 'widget-list-media-'+(chatRequestIds.result.length + i + 1): '']" (click)="getChatHistory(chatRequestIds.result.length + i + 1, analysts, true)">
+                                        <img src="{{analysts.profileUrl}}" width="50" class="img-rounded">
+                                    </div>
+  
+                                    <div [ngClass]="[ showChatPopup ? 'widget-list-content-'+(chatRequestIds.result.length + i + 1): '']" style="border-top: none !important" (click)="getChatHistory(chatRequestIds.result.length + i + 1, analysts, true)">
+                                        <h4 class="widget-list-title">{{analysts.name}}</h4>
+                                        <span _ngcontent-qql-c108="" *ngIf="this.unreadMessagePerUser.hasOwnProperty(analysts.id) && this.unreadMessagePerUser[analysts.id] > 0" class="badge new-message-badge">
+                                            <span *ngIf="this.unreadMessagePerUser[analysts.id] <= 9" class="new-message-badge-1">{{this.unreadMessagePerUser[analysts.id]}}</span>
+                                            <span *ngIf="this.unreadMessagePerUser[analysts.id] > 9 && this.unreadMessagePerUser[analysts.id] < 100" class="new-message-badge-2">{{this.unreadMessagePerUser[analysts.id]}}</span>
+                                            <span *ngIf="this.unreadMessagePerUser[analysts.id] > 99" class="new-message-badge-3">99+</span>
+                                        </span>
+                                        <!-- <span _ngcontent-qql-c108="" *ngIf="analysts.id === this.unreadMessagePerUser[analysts.id] && this.unreadMessagePerUser[analysts.id] == 0" class="badge new-message-badge">{{this.unreadMessagePerUser[analysts.id]}}</span> -->
+                                        <p class="widget-list-desc">{{analysts.role}}</p>
+                                    </div>
+                                </div>
+                            </span>
+                           
+                        </div>
+                    </div>
+                    <div class="chatbox">
+                        <div class="widget-chat chat-containter rounded mb-4" [ngClass]="{ 'chat-container-change-bg': showWelcomeMessage }">
+
+                            <div *ngIf="showWelcomeMessage" class="welcome-chat">
+                               <div class="welcome-chat-image">
+                                    <img src="{{logo}}" width="120" class="img-rounded img-chat company-chat-logo">
+                               </div>
+
+                               <div class="welcome-chat-header">
+                                  <h2>Analysts 24x7</h2>
+                               </div>
+
+                               <div *ngIf="this.userInfo['custom:role'] == 'customer'" class="welcome-chat-body">
+                                   <span>Send and received message. Feel free post your query to Analysts24x7 bot.</span>
+                               </div>
+                               <div *ngIf="this.userInfo['custom:role'] != 'customer'" class="welcome-chat-body">
+                                <span>Please chat with customer via OrderId if you are not clear about the requirement.</span>
+                            </div>
+                            </div>
+
+                            <div *ngIf="!showWelcomeMessage" class="widget-chat-header">
+                                <div class="widget-chat-header-icon">
+                                    <span class="chat-header-image">
+                                        <img src="{{profileUrl}}" width="35" class="img-rounded">
+                                    </span>
+                                </div>
+
+                                <div class="widget-chat-header-content">
+                                    <h4 *ngIf="showOrderIdText" class="widget-chat-header-title">Order Id - {{chatHeader}}</h4>
+                                    <h4 *ngIf="!showOrderIdText" class="widget-chat-header-title">{{chatHeader}}</h4>
+                                    <p class="widget-chat-header-desc">{{chatInfo}}</p> <!-- 55 members, 4 online -->
+                                </div>
+
+                                <emoji-mart class="emoji-style" size="16" *ngIf="showEmoji" title="Pick your emoji…" emoji="point_up" (emojiClick)="addEmoji($event)"></emoji-mart>
+                            </div>
+
+                            <perfect-scrollbar *ngIf="!showWelcomeMessage" class="widget-chat-body chat-body">
+                                <div style="position: static;" class="ps--active-y">
+                                    <!-- <div class="ps-content">
+                                        <div class="text-center text-gray-500 m-2 fw-bold">Today</div>                   
+                                    </div> -->
+                                    <div *ngIf="isLoadingChat" class="panel-body panel-height-dynamic">
+                                        <div>
+                                            <div class="card-body">
+                                                <div class="fa-3x chat-spinner-position">
+                                                    <i class="fas fa-circle-notch fa-spin"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- User Interaction -->
+                                    <span *ngIf="userInteraction">
+                                        <div class="ps-content">
+                                            <div class="text-center text-gray-500 m-2 fw-bold">Today</div>
+                                        </div>
+                                        <!-- From the UI First Chat Message -->
+                                        <div class="widget-chat-info private-sender">
+                                            <div class="widget-chat-info-container user-interaction-chat-container">
+                                                <div class="widget-chat-message">
+                                                    <span class="user-interaction-heading-1">{{userInteractionFlow.headings[0]}}</span><pre></pre>
+                                                    <span class="user-interaction-heading-2">{{userInteractionFlow.headings[1]}}</span><pre></pre>
+                                                    <span *ngFor="let userInteractionBtn of userInteractionFlow.options; let i = index">
+                                                       <button *ngIf="!this.disabledButtonQNABot.firstStepBtn" type="button" [ngClass]="[ userInteractionBtn.disabled ? 'btn btn-white me-1 mb-1' : 'btn btn-black me-1 mb-1 cursor-not-allowed' ]" [disabled]="userInteractionBtn.disabled" (click)="getUserInterationBotResponse(userInteractionBtn.id)">{{userInteractionBtn.label}}</button>
+                                                       <button *ngIf="this.disabledButtonQNABot.firstStepBtn" type="button" class="btn btn-white me-1 mb-1" [disabled]="userInteractionBtn.disabled" (click)="getUserInterationBotResponse(userInteractionBtn.id)">{{userInteractionBtn.label}}</button>
+                                                    </span>
+                                                </div>
+                                                <div class="widget-chat-time">{{current_date | date :'h:mm a'}}</div>
+                                            </div>
+                                        </div>
+                                        <!-- From the UI First Chat Message -->
+                                        
+                                        <!-- From the API When the customer select any service -->
+                                        <span *ngIf="userInteractionLength > 0">
+                                            <div *ngFor="let userInteractionData of userInteractionAPI; let i = index" class="widget-chat-info private-sender private-sender-bot">
+                                                <div *ngIf="!userInteractionData.sendByUser" class="widget-chat-info-container">
+                                                    <div class="widget-chat-message">
+                                                        <span *ngIf="userInteractionData.heading !=''">
+                                                            <span class="user-interaction-heading">{{userInteractionData.heading}}</span><pre></pre>
+                                                            <span *ngFor="let userInteractionBtn of userInteractionData.options; let j = indx">
+                                                                <span *ngIf="userInteractionBtn.id">
+                                                                    <button *ngIf="!this.disabledButtonQNABot.secondStepBtn" type="button" [ngClass]="[ userInteractionBtn.disabled ? 'btn btn-white me-1 mb-1' : 'btn btn-black me-1 mb-1 cursor-not-allowed' ]" (click)="getUserInterationBotResponse(userInteractionBtn.id)" [disabled]="userInteractionBtn.disabled">{{userInteractionBtn.content}}</button>
+                                                                    <button *ngIf="this.disabledButtonQNABot.secondStepBtn" type="button" class="btn btn-white me-1 mb-1" [disabled]="userInteractionBtn.disabled" (click)="getUserInterationBotResponse(userInteractionBtn.id)">{{userInteractionBtn.content}}</button>
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                        <span class="user-interaction-heading" *ngIf="userInteractionData.heading ==''">
+                                                            <span *ngFor="let userInteractionBtn of userInteractionData.options; let i = index">
+                                                                <span class="user-interaction-heading">{{userInteractionBtn.content}}</span>
+                                                            </span>
+                                                        </span>
+                                                    </div> 
+                                                    <div class="widget-chat-time">{{current_date | date :'h:mm a'}}</div>
+                                                </div>
+
+                                                <div *ngIf="userInteractionData.sendByUser" class="widget-chat-item private-sender-user end">
+                                                    <div class="widget-chat-info-container fr-left">
+                                                        <div class="widget-chat-message">
+                                                            <span *ngFor="let userInteractionBtn of userInteractionData.options; let i = index">
+                                                                <span class="user-interaction-heading">{{userInteractionBtn.content}}</span>
+                                                            </span>
+                                                        </div> 
+                                                        <div class="widget-chat-time">{{current_date | date :'h:mm a'}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                        <!-- From the API When the customer select any service -->
+                                        
+                                        <!-- User Interation Customer Reply -->
+                                        <!-- <div *ngIf="userInteractionCustomerReply.content" class="widget-chat-info private-sender">
+                                            <div class="widget-chat-info-container">
+                                                <div class="widget-chat-message">{{userInteractionCustomerReply.content}}</div>
+                                                <div class="widget-chat-time">{{current_date | date :'h:mm a'}}</div>
+                                            </div>
+                                        </div> -->
+
+                                        
+                                        <!--  Until get the response from bot show loader -->
+                                        <div *ngIf="showTypingLoader" [ngClass]="customerSendPrevChatBot ? 'widget-chat-info private-sender private-sender-bot mt-10': 'widget-chat-info private-sender private-sender-bot'">
+                                            <div class="widget-chat-info-container chat-loader-container">
+                                                <div class="widget-chat-message">
+                                                    <span class="chat-loader"></span>     
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  Until get the response from bot show loader -->
+                                        
+                                    </span>
+
+                                    <!-- Personal Chart -->
+                                    <span *ngIf="!userInteraction && isAnalysts">
+                                        <span *ngFor="let userChatHistory of getSelectedUsersChatHistory; let i = index">
+                                            <div *ngIf="i === 0 || shouldShowDate(getSelectedUsersChatHistory[i], getSelectedUsersChatHistory[i - 1], i)" class="ps-content">
+                                                <div class="text-center text-gray-500 m-2 fw-bold">{{ formatDate(userChatHistory.time) }}</div>
+                                            </div>
+                                            <span *ngIf="!userChatHistory.fileAttachment">
+                                                <div *ngIf="this.senderUserId != userChatHistory.senderUserId" class="widget-chat-item with-media start">
+                                                    <div class="widget-chat-info private-receiver">
+                                                        <div class="widget-chat-info-container">
+                                                            <div class="widget-chat-message">{{userChatHistory.messageBody}}</div>
+                                                            <div class="widget-chat-time">{{userChatHistory.time | date :'h:mm a'}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+            
+                                                <div *ngIf="this.senderUserId == userChatHistory.senderUserId" class="widget-chat-item end">
+                                                    <div class="widget-chat-info private-sender">
+                                                        <div class="widget-chat-info-container">
+                                                            <div class="widget-chat-message">{{userChatHistory.messageBody}}</div>
+                                                            <div class="widget-chat-time">{{userChatHistory.time | date :'h:mm a'}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </span>
+
+                                            <span *ngIf="userChatHistory.fileAttachment">
+                                                <div *ngIf="this.senderUserId != userChatHistory.senderUserId" class="widget-chat-item with-media start">
+                                                    <!-- Custom CSS for attahments Style starts -->
+                                                    <div class="widget-chat-info attachments-private">
+                                                        <div class="widget-chat-info-container">
+                                                            <div class="widget-chat-message widget-chat-message-attachments-personal">
+                                                                <div class="gx-1 mt-5px custom-style-attachments">
+                                                                    <div class="col-md-12 attachments-col-md-12">
+                                                                        <div class="file-icon">
+                                                                            <i class="fa-file fa-2xl fas attachment-icon"></i>
+                                                                        </div>
+                                                                        <div class="file-attachment-name">  
+                                                                            {{userChatHistory.fileName}}
+                                                                        </div>
+                                                                        
+                                                                        <div class="file-download">
+                                                                            <i class="fa-arrow-circle-down fa-xl fa attachment-icon" style="cursor: pointer;" (click)="downloadFile(userChatHistory.messageBody)"></i>
+                                                                        </div>
+                                                                        <div class="file-attachment-extention-name">  
+                                                                            {{userChatHistory.fileExtention}}
+                                                                        </div>
+                                                                        <div class="widget-card-cover" style="background-image: url(../assets/img/gallery/gallery-51-thumb.jpg)"></div>
+                                                                       
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="widget-chat-time group-chat-time file-attahment-time" style="float: right;">{{userChatHistory.time | date :'h:mm a'}}</div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Custom CSS for attahments Style ends -->
+                                                </div>
+            
+                                                <div *ngIf="this.senderUserId == userChatHistory.senderUserId" class="widget-chat-item end">
+                                                    <div class="widget-chat-info attachments">
+                                                        <div class="widget-chat-info-container">
+                                                            <div class="widget-chat-message widget-chat-message-attachments-personal">
+                                                                <div class="gx-1 mt-5px custom-style-attachments">
+                                                                    <div class="col-md-12 attachments-col-md-12">
+                                                                        <div class="file-icon">
+                                                                            <i class="fa-file fa-2xl fas attachment-icon"></i>
+                                                                        </div>
+                                                                        <div class="file-attachment-name">  
+                                                                            {{userChatHistory.fileName}}
+                                                                        </div>
+                                                                        
+                                                                        <div *ngIf="!userChatHistory.fileAttachmentPreUpload" class="file-download">
+                                                                            <i class="fa-arrow-circle-down fa-xl fa attachment-icon" style="cursor: pointer;" (click)="downloadFile(userChatHistory.messageBody)"></i>
+                                                                        </div>
+
+                                                                        <div *ngIf="userChatHistory.fileAttachmentPreUpload" class="file-download">
+                                                                            <i class="fa-spinner fa-spin fa-xl fa attachment-icon" style="cursor: pointer;"></i>
+                                                                        </div>
+
+                                                                        <div class="file-attachment-extention-name">  
+                                                                            {{userChatHistory.fileExtention}}
+                                                                        </div>
+                                                                        <div class="widget-card-cover" style="background-image: url(../assets/img/gallery/gallery-51-thumb.jpg)"></div>
+                                                                    
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="widget-chat-time group-chat-time file-attahment-time" style="float: right;">{{userChatHistory.time | date :'h:mm a'}}</div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Custom CSS for attahments Style ends -->
+                                                </div>
+                                            </span>
+                                        </span>
+                                    </span>
+
+                                    <!-- Group Chart -->
+                                    <span *ngIf="!userInteraction && !isAnalysts">
+                                        <span *ngFor="let groupChatHistory of getSelectedGroupChatHistory; let i = index">
+                                            <div *ngIf="i === 0 || shouldShowDate(getSelectedGroupChatHistory[i], getSelectedGroupChatHistory[i - 1], i)" class="ps-content">
+                                                <div class="text-center text-gray-500 m-2 fw-bold">{{ formatDate(groupChatHistory.time) }}</div>
+                                            </div>
+
+                                            <span *ngIf="!groupChatHistory.fileAttachment">
+                                                <div *ngIf="this.senderUserId != groupChatHistory.senderUserId" class="widget-chat-item with-media start">
+                                                    <div class="widget-chat-item with-media start">
+                                                        <div class="widget-chat-media">
+                                                            <img src="{{groupChatHistory.senderProfilePic}}">
+                                                        </div>
+                                                        <div class="widget-chat-info">
+                                                            <div class="widget-chat-info-container">
+                                                                <div class="widget-chat-name text-indigo">{{groupChatHistory.senderName}}</div>
+                                                                <div class="widget-chat-message">{{groupChatHistory.messageBody}}</div>
+                                                                <div class="widget-chat-time">{{groupChatHistory.time | date :'h:mm a'}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+            
+                                                <div *ngIf="this.senderUserId == groupChatHistory.senderUserId" class="widget-chat-item end">
+                                                    <div class="widget-chat-info private-sender">
+                                                        <div class="widget-chat-info-container">
+                                                            <div class="widget-chat-message">{{groupChatHistory.messageBody}}</div>
+                                                            <div class="widget-chat-time">{{groupChatHistory.time | date :'h:mm a'}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </span>
+
+                                            <span *ngIf="groupChatHistory.fileAttachment">
+                                                <div *ngIf="this.senderUserId != groupChatHistory.senderUserId" class="widget-chat-item with-media start">
+                                                    <!-- Custom CSS for attahments Style starts -->
+                                                    <div class="widget-chat-info attachments">
+                                                        <div class="widget-chat-media">
+                                                            <img src="{{groupChatHistory.senderProfilePic}}">
+                                                        </div>
+                                                        <div class="widget-chat-info-container">
+                                                            <div class="widget-chat-message widget-chat-message-attachments">
+                                                                <div class="widget-chat-name text-indigo">{{groupChatHistory.senderName}}</div>
+                                                                <div class="gx-1 mt-5px custom-style-attachments">
+                                                                    <div class="col-md-12 attachments-col-md-12">
+                                                                        <div class="file-icon">
+                                                                            <i class="fa-file fa-2xl fas attachment-icon"></i>
+                                                                        </div>
+                                                                        <div class="file-attachment-name">  
+                                                                            {{groupChatHistory.fileName}}
+                                                                        </div>
+                                                                        
+                                                                        <div class="file-download">
+                                                                            <i class="fa-arrow-circle-down fa-xl fa attachment-icon" style="cursor: pointer;" (click)="downloadFile(groupChatHistory.messageBody)"></i>
+                                                                        </div>
+                                                                        <div class="file-attachment-extention-name">  
+                                                                            {{groupChatHistory.fileExtention}}
+                                                                        </div>
+                                                                        <div class="widget-card-cover" style="background-image: url(../assets/img/gallery/gallery-51-thumb.jpg)"></div>
+                                                                       
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="widget-chat-time group-chat-time file-attahment-time" style="float: right;">{{groupChatHistory.time | date :'h:mm a'}}</div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Custom CSS for attahments Style ends -->
+                                                </div>
+            
+                                                <div *ngIf="this.senderUserId == groupChatHistory.senderUserId" class="widget-chat-item end">
+                                                    <!-- Custom CSS for attahments Style starts -->
+                                                    <div class="widget-chat-info attachments">
+                                                        <div class="widget-chat-info-container">
+                                                            <div class="widget-chat-message widget-chat-message-attachments-personal">
+                                                                <div class="gx-1 mt-5px custom-style-attachments">
+                                                                    <div class="col-md-12 attachments-col-md-12">
+                                                                        <div class="file-icon">
+                                                                            <i class="fa-file fa-2xl fas attachment-icon"></i>
+                                                                        </div>
+                                                                        <div class="file-attachment-name">  
+                                                                            {{groupChatHistory.fileName}}
+                                                                        </div>
+
+                                                                        <div *ngIf="!groupChatHistory.fileAttachmentPreUpload" class="file-download">
+                                                                            <i class="fa-arrow-circle-down fa-xl fa attachment-icon" style="cursor: pointer;" (click)="downloadFile(groupChatHistory.messageBody)"></i>
+                                                                        </div>
+
+                                                                        <div *ngIf="groupChatHistory.fileAttachmentPreUpload" class="file-download">
+                                                                            <i class="fa-spinner fa-spin fa-xl fa attachment-icon" style="cursor: pointer;"></i>
+                                                                        </div>
+
+                                                                        <div class="file-attachment-extention-name">  
+                                                                            {{groupChatHistory.fileExtention}}
+                                                                        </div>
+                                        
+                                                                        <div class="widget-card-cover" style="background-image: url(../assets/img/gallery/gallery-51-thumb.jpg)"></div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="widget-chat-time group-chat-time file-attahment-time">{{groupChatHistory.time | date :'h:mm a'}}</div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Custom CSS for attahments Style ends -->
+                                                </div>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </perfect-scrollbar>
+
+                            <div *ngIf="!showWelcomeMessage" class="widget-input">
+                                <form novalidate="" action="" method="POST" name="" class="ng-untouched ng-pristine ng-valid ng-submitted">
+                                    <div class="widget-input-container">
+                                        <div class="widget-input-icon emoji-icon">
+                                            <a href="javascript:;" [ngClass]="sendChatMessageBtn ? 'text-gray-500 emoji-smile-icon anchor-disable' : 'text-gray-500 emoji-smile-icon'" (click)="addReaction()">
+                                                <i [ngClass]="[!showEmoji ? 'fa fa-smile fa-color-black' : 'fa fa-close fa-color-black']"></i>
+                                            </a>
+                                        </div>
+                                        <div class="widget-input-divider icon-divider"></div>
+                                        <div class="widget-input-icon">
+                                            <!-- <a href="javascript:;" class="text-gray-500"> -->
+                                            <label class="text-gray-500 file-upload-paper-clip" for="file">
+                                                <i class="fa fa-paperclip"></i>
+                                                <input type="file" id="file" name="file" onclick="value = null" (change)="getFileDetails($event.target.files)" accept="{{acceptFile}}" [(ngModal)]="fileInfo" [disabled]="preUploadFileStatus">
+                                            </label>     
+                                            <!-- </a> -->
+                                        </div>
+                                        
+                                        <div class="widget-input-box">
+                                            <textarea (keyup.enter)="sendMessage(true, {})" [(ngModel)]="messageBody" class="form-control text-area-input autosize-textarea" (input)="adjustTextareaSize()" (keyup)="adjustTextareaSize()" placeholder="Write a message..." [disabled]="sendChatMessageBtn"></textarea>
+                                        </div>
+
+                                        <!--If not required in future, can be removed just needed confirmation-->
+                                        <!-- <div class="widget-input-divider"></div>
+                                        <div class="widget-input-icon">
+                                            <a href="javascript:;" class="text-gray-500">
+                                                <i class="fa fa-microphone"></i>
+                                            </a>
+                                        </div> -->
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>   
+    
+    
+    
+    <!-- <div class="text-center p-2"> 
+        <span>Please fill out the form to start chat!</span> 
+    </div> 
+    <div class="chat-form"> 
+        <input type="text" class="form-control" placeholder="Name"> 
+        <input type="text" class="form-control" placeholder="Email"> 
+        <textarea class="form-control" placeholder="Your Text Message"></textarea> 
+        <button class="btn btn-success btn-block">Submit</button> 
+    </div>  -->
+</panel-chat>

@@ -1,0 +1,270 @@
+span.input-group-text.input-group-width-xsm {
+    width: 50px !important;
+}
+
+span.input-group-text.input-group-width {
+    width: 105px !important;
+}
+
+span.input-group-text.input-group-width-sm {
+    width: 115px !important;
+}
+
+span.input-group-text.input-group-width-lg {
+    width: 120px!important;
+}
+
+span.input-group-text.input-group-width-xl {
+    width: 175px !important;
+}
+
+.customTooltip {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+  
+.customTooltip h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+  
+.customTooltip p {
+    margin: 0;
+    color: #666;
+}
+
+.cl-black {
+    color: black
+}
+
+.mr-left {
+    margin-left: 10px
+}
+
+// tooltip
+// .tooltip-arrow {
+//     --bs-tooltip-bg: white !important;
+// }
+
+// .tooltip-inner {
+//     color: black !important;
+//     background: white !important;
+// }
+
+/* Custom tooltip styles */
+.custom-tooltip {
+    position: absolute!important;
+    background-color: #fff!important;
+    color: #000!important;
+    border: 1px solid #ccc!important;
+    padding: 10px!important;
+    margin-left: 23rem;
+    width: 300px!important;
+    margin-top: -2.6rem;
+    border-radius: 6px;
+}
+  
+/* Show the tooltip when it should be visible */
+.custom-tooltip.ng-star-inserted {
+    display: block !important;
+} 
+  
+  /* Tooltip arrow styles */
+.custom-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px; /* Adjust the margin for vertical centering */
+    border-width: 5px;
+    border-style: solid;
+    border-color:  transparent white transparent transparent !important; /* Left arrow color */
+}
+
+.text-first-letter-uppercase {
+    text-transform: capitalize;
+}
+
+.mr-left-5 {
+    margin-left: 5px
+}
+
+.btn-width-5 {
+    width: 5rem;
+}
+
+.fr-2 {
+    float: right;
+}
+
+.fl-2 {
+    float: left;
+}
+
+.ml {
+    margin-left: 1%;
+}
+
+.mr-auto {
+    margin: auto;
+}
+
+.max-height  {
+    height: 1000px;
+    pointer-events: auto;
+    cursor: not-allowed !important;;
+}
+
+.max-200 {
+    height: 200px;
+}
+
+.spinner-position {
+    position: fixed;
+    top: 26%;
+    left: 55%;
+}
+
+.chat-spinner-position {
+    position: fixed;
+    bottom: 20rem;
+    right: 20rem;
+}
+
+.panel-height-dynamic {
+    height: 75px !important;
+}
+
+.login-font {
+    font-size: 11px !important;
+}
+
+.login-font-sm {
+    font-size: 10px !important;
+}
+
+
+#login-error, #signup-error {
+    display: none;
+    width: 100%;
+    margin-top: 0.75rem;
+    font-size: .7125rem;
+    color: #ff5b57;
+}
+
+.page-header {
+    color: var(--app-header-color);
+}
+
+.current-plan {
+    background-color: var(--bs-link-color);;
+    color: white;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.dashboard-card-p {
+    font-size: 21px !important;
+}
+
+/* Tooltip container */
+
+.is-valid:hover, .is-invalid:hover {
+    cursor: pointer;
+}
+
+/* 2 div in the same line */
+
+#block_container
+{
+    text-align:center;
+}
+
+#submitText, #loader
+{
+    display:inline;
+}
+
+
+/* Error */
+.input-group-error {
+   color: red;
+   margin-top: 1%;
+}
+
+.img-preview {
+    width:50px;
+    height: 36px;
+}
+/* CSS Loader */
+
+#loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #00acac;
+    width: 10px;
+    height: 10px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+    display: none;
+}
+
+.swal2-popup {
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+}
+  
+// atique
+.analysts-min-chat-icon {
+    fill: var(--tawk-header-text-color);
+    animation-duration: .25s;
+    animation-name: iconAnimation;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.chat-close-button {
+    margin-top: 1%;
+}
+
+// Loader
+
+.loader{
+    margin: 0 0 2em;
+    height: 0;
+    width: 0;
+    position: relative;
+    right: 8px;
+    bottom: 17px;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  /*
+    Set the color of the icon
+  */
+  svg path,
+  svg rect{
+    fill: #CCC;
+  }
+
+.fixed-height {
+    height: 35px;
+}

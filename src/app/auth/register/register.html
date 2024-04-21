@@ -1,0 +1,108 @@
+<div class="login login-v2 fw-bold">
+	<div class="login-cover">
+		<div class="login-cover-img" [ngStyle]="{ 'background-image': 'url(' + this.bg + ')' }"></div>
+		<div class="login-cover-bg"></div>
+	</div>
+	
+	<div class="login-container">
+		<div class="login-header">
+			<div class="brand">
+				<div class="d-flex align-items-center">
+					<img src="../../../assets/img/logo/apple-icon.png" alt="Analysts24x7" height="28" class="company-login-logo">
+					<span class="company-title"><b>Analysts</b> 24X7</span>
+				</div>
+				<small class="login-font">Join us with confidence, your data's safety is our promise.</small>
+			</div>
+			<div class="icon">
+				<i class="fa fa-lock"></i>
+			</div>
+		</div>
+    
+		<div class="login-content">
+      <form #f="ngForm">
+        <div class="form-floating mb-20px">
+          <input autocomplete="off" type="text" class="form-control fs-13px h-45px border-0" placeholder="Name" id="name" [ngModel]="username" (ngModelChange)="checkname($event)" />
+          <label for="name" class="d-flex align-items-center text-gray-600 fs-13px">Name</label>
+		  <div *ngIf="isInvalidName" class="custom-tooltip">
+			Name must be at least 3 characters long.
+		  </div>
+        </div>
+
+        <div class="form-floating mb-20px">
+          <input autocomplete="off" type="text" class="form-control fs-13px h-45px border-0" placeholder="Email Address" id="regEmailAddress" [ngModel]="email" (ngModelChange)="checkm($event)" />
+          <label for="emailAddress" class="d-flex align-items-center text-gray-600 fs-13px">Email Address</label>
+		  <div *ngIf="isInvalidEmail" class="custom-tooltip">
+			Please enter a valid email address.
+		  </div>
+        </div>
+
+        <div class="input-group">
+			<div class="form-floating">
+				<input [type]="showPassword ? 'text' : 'password'" class="form-control fs-13px h-45px border-0" placeholder="Password" id="password" [ngModel]="password" (ngModelChange)="checkpw($event)" />
+				<label for="password" class=" align-items-center text-gray-600 fs-13px registration-password">Password</label>
+				<div *ngIf="isInvalidPassword" class="custom-tooltip">
+					Password must be at least 6 characters long.
+				</div>
+			</div>
+
+			<span class="input-group-text cursor-pointer" (click)="togglePasswordVisibility()">
+				<i class="fa" [ngClass]="{ 'fa-eye': showPassword, 'fa-eye-slash': !showPassword }"></i>
+			</span>
+		</div>
+    
+        <div class="form-floating">
+			<div id="signup-error">Email and password invalid !!!</div>
+		</div>
+
+        <div class="my-20px">
+          <button type="submit" id="signup" class="btn btn-success d-block w-100 h-45px btn-lg" (click)="register()" [disabled]="isEnabledSubmit">
+            <div id="block_container">
+              <div id="submitText">
+                {{confirmButtonText}}
+								<div *ngIf="showLoader" class="loader loader--style3" title="2">
+									<img src="../../../assets/img/svg/loader.svg">
+								</div>
+              </div>
+            </div>
+          </button>
+        </div>
+    
+        <div class="separator">
+          <hr>
+          <span>Or sign up with: </span>
+          <hr>
+        </div>
+    
+        
+
+        <div class="d-flex justify-content-around social-icons">
+			<div class="position-relative d-flex justify-content-center align-items-center">
+				<div class="social-logo google-container">
+					<a class="google"><i class="fab fa-google fa-fw"></i></a>
+				</div>
+
+				<asl-google-signin-button class="google-icon" (signInStatus)="signUpWithGoogle()">
+				</asl-google-signin-button>
+			</div>
+
+			<!-- <div (click)="signUpWithFB()" class="social-logo fb-container">
+				<a><i class="fb fa-brands fa-facebook-f"></i></a>
+			</div> -->
+
+			<div class="social-logo linkdin-container">
+				<a (click)="signUpWithLinkedin()" class="linkdin"><i class="fa-brands fa-linkedin-in"></i></a>
+			</div>
+
+			<!-- <div (click)="loginWithGithub()" class="social-logo git-container">
+				<a href="#" class="git"><i class="fa-brands fa-github"></i></a>
+			</div> -->
+		</div>
+    
+        <div class="d-flex justify-content-center text-gray-500 mt-4">
+          Already a member? Click
+          <a routerLink="/" class="text-white click-here">here</a> to sign in.
+        </div>
+      </form>
+    </div>
+	</div>
+</div>

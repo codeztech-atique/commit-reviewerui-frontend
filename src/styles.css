@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '~angular-calendar/css/angular-calendar.css';
+@import '~intro.js/introjs.css';
+
+
+/*  Custome style */
+
+/* .border {
+    border-color: var(--app-component-border-color);
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+} */

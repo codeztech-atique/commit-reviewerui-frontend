@@ -1,0 +1,127 @@
+<!-- BEGIN login -->
+<div class="login login-v2 fw-bold">
+	<!-- BEGIN login-cover -->
+	<div class="login-cover">
+		<div class="login-cover-img" [ngStyle]="{ 'background-image': 'url(' + this.bg + ')' }"></div>
+		<div class="login-cover-bg"></div>
+	</div>
+	<!-- END login-cover -->
+	
+	<!-- BEGIN login-container -->
+	<div class="login-container">
+		<!-- BEGIN login-header -->
+		<div class="login-header">
+			<div class="brand">
+				<div class="d-flex align-items-center">
+					<!-- <span class="logo"></span> <b>Analysts&nbsp;</b> 24x7 -->
+					<img src="../../../assets/img/logo/apple-icon.png" alt="Analysts24x7" height="28" class="company-login-logo">
+					<span class="company-title"><b>Analysts</b> 24X7</span>
+				</div>
+				<small class="login-font">Your credentials, our commitment guarding your trust.</small>
+			</div>
+			<div class="icon">
+				<i class="fa fa-lock"></i>
+			</div>
+		</div>
+		<!-- END login-header -->
+		
+		<!-- BEGIN login-content -->
+		<div class="login-content">
+			<form #f="ngForm">
+				<div class="form-floating mb-20px">
+					<input type="text" class="form-control fs-13px h-45px border-0" placeholder="Email Address" id="emailAddress" [ngModel]="email" (ngModelChange)="checkm($event)" />
+					<label for="emailAddress" class="d-flex align-items-center text-gray-600 fs-13px">Email Address</label>
+					<div *ngIf="isInvalidEmail" class="custom-tooltip">
+						Please enter a valid email address.
+					</div>
+				</div>
+				
+				<div class="input-group">
+					<div class="form-floating">
+						<input [type]="showPassword ? 'text' : 'password'" class="form-control fs-13px h-45px border-0" placeholder="Password" id="password" [ngModel]="password" (ngModelChange)="checkpw($event)" 
+						/>
+						<label for="password" class=" align-items-center text-gray-600 fs-13px login-password">Password</label>
+						<div *ngIf="isInvalidPassword" class="custom-tooltip">
+							Password must be at least 6 characters long.
+						</div>
+					</div>
+					<!-- ngbTooltip="Password should have minimum 6 character."
+						style="background-color: white; color: black;"
+							-->
+					
+					<span class="input-group-text cursor-pointer" (click)="togglePasswordVisibility()">
+						<i class="fa" [ngClass]="{ 'fa-eye': showPassword, 'fa-eye-slash': !showPassword }"></i>
+					</span>
+				</div>
+
+				<div class="form-floating">
+					<div id="login-error">Email and password invalid !!!</div>
+				</div>
+
+				<div class="row rememberme-forgetpass-container">
+					<!-- Remember me means, user don't need to login, if the goes to login page since we are storing the details in the cookies
+					We don't need that feature right now -->
+					<div class="col-6 form-check my-2">
+						<!-- <input class="form-check-input border-0 cursor-pointer" type="checkbox" [(ngModel)]="rememberMe" id="rememberMe" name="rememberMe" />
+						<label class="form-check-label fs-13px cursor-pointer" for="rememberMe">
+						  Remember me
+						</label> -->
+					  </div>
+
+					<div class="col-6 my-2">
+						<a class="link-light link-underline-opacity-0 float-end text-decoration-none" routerLink="forgot-password">Forgot Password ?</a>
+					</div>
+				</div>
+
+				<div class="mb-20px">
+					<button type="submit" id="signIn" class="btn btn-success d-block w-100 h-45px btn-lg" (click)="signIn()"  [disabled]="isEnabledSubmit">
+						<div id="block_container">
+							<div id="submitText">
+								{{confirmButtonText}}
+								<div *ngIf="showLoader" class="loader loader--style3" title="2">
+									<img src="../../../assets/img/svg/loader.svg">
+								</div>
+							</div>
+						</div>
+					</button>
+				</div>
+
+				<div class="separator">
+					<hr>
+					<span>Or sign in with </span>
+					<hr>
+				</div>
+
+				<div class="d-flex justify-content-around social-icons">
+					<div class="position-relative d-flex justify-content-center align-items-center">
+						<div class="social-logo google-container">
+							<a class="google"><i class="fab fa-google fa-fw"></i></a>
+						</div>
+
+						<asl-google-signin-button class="google-icon" (signInStatus)="signInWithGoogle()">
+							<button>Sign in with Google</button>
+						</asl-google-signin-button>
+					</div>
+
+					<!-- <div (click)="signInWithFB()" class="social-logo fb-container">
+						<a><i class="fb fa-brands fa-facebook-f"></i></a>
+					</div> -->
+
+					<div class="social-logo linkdin-container">
+						<a (click)="signInWithLinkedin()" class="linkdin"><i class="fa-brands fa-linkedin-in"></i></a>
+					</div>
+
+					<!-- <div (click)="loginWithGithub()" class="social-logo git-container">
+						<a href="#" class="git"><i class="fa-brands fa-github"></i></a>
+					</div> -->
+				</div>
+
+				<div class="d-flex justify-content-center text-gray-500 mt-4">
+					Not a member yet? Click
+					<a routerLink="/register" class="text-white click-here">here</a> to register.
+				</div>
+			</form>
+		</div>
+		<!-- END login-content -->
+	</div>
+</div>
