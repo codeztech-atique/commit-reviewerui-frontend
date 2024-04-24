@@ -18,9 +18,6 @@ import { CONSTANTS } from '../../../config/constants';
 export class Customer_Dashboard implements OnInit, AfterViewInit {
 	global = global;
   data: any;
-  totalTime: any;
-  subscriptionEndDate: any;
-  subscriptionStartDate: any;
   currentUser: any;
   swalWithBootstrapButtons = Swal.mixin({
     customClass: {
@@ -39,11 +36,11 @@ export class Customer_Dashboard implements OnInit, AfterViewInit {
     this.shared.getDashboard().subscribe({
       next: async(response) => {
         let responseData = JSON.parse(JSON.stringify(response));
-        this.subscriptionEndDate = this.formatDate(responseData.subscriptionEndDate);
-        this.subscriptionStartDate = this.formatDate(responseData.subscriptionStartDate);
+        // this.subscriptionEndDate = this.formatDate(responseData.subscriptionEndDate);
+        // this.subscriptionStartDate = this.formatDate(responseData.subscriptionStartDate);
         this.data = responseData;
-        this.currentUser['status'] = this.data.status;
-        this.currentUser['balance'] = this.data.totalTime;
+        // this.currentUser['status'] = this.data.status;
+        // this.currentUser['balance'] = this.data.totalTime;
         localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
       },
       error: (error) => {
@@ -55,7 +52,7 @@ export class Customer_Dashboard implements OnInit, AfterViewInit {
   differanceFromRegistation() {
     // Get the current date and time
     var currentDate: Date = new Date();
-    var startDateString: string = this.currentUser['custom:sub_startdate'];
+    var startDateString: string = this.currentUser['custom:createdAt'];
     var startDate: Date = new Date(startDateString);
 
     // Calculate the difference in minutes
@@ -68,7 +65,7 @@ export class Customer_Dashboard implements OnInit, AfterViewInit {
     // var oneYearInMilliseconds: number = 365 * 24 * 60 * 60 * 1000;
 
     // Check the conditions
-    if(timeDifferenceInMinutes < CONSTANTS.INTRO_SHOW && this.currentUser['custom:selectedPlan'] == 'Freemium-USD-Daily') {
+    if(timeDifferenceInMinutes < CONSTANTS.INTRO_SHOW) {
     // if(timeDifferenceInMilliseconds < oneYearInMilliseconds) {
       this.startIntro();
     }
@@ -92,66 +89,59 @@ export class Customer_Dashboard implements OnInit, AfterViewInit {
     }, 500);
   }
 
-  subscriptionDetails(subscriptionName: string) {
-    let subscription = subscriptionName, infoText = "";
-    if(subscription.includes("Base")) {
-      infoText = this.data.status == 'Inactive'? "Your current plan has expired. Please recharge your account to continue enjoying the service." : "You are eligible to get 10 hrs of support. Do you want to add more credits?"
-    } else if(subscription.includes("Pro")) {
-      infoText = this.data.status == 'Inactive'? "Your current plan has expired. Please recharge your account to continue enjoying the service." : "You are eligible to get 20 hrs of support. Do you want to add more credits?"
-    } else if(subscription.includes("Pro")) {
-      infoText = this.data.status == 'Inactive'? "Your current plan has expired. Please recharge your account to continue enjoying the service." : "You are eligible to get 720 hrs of support."
-    } else {
-      infoText = this.data.status == 'Inactive'? "Your current plan has expired. Please recharge your account to continue enjoying the service." : "You are eligible to get 7 hrs of support. If you want to add more hours, please upgrade your plan."
-    }
+  totalGithubAccount(totalGitHubAccount: number) {
+    const textData = `You currently manage a total of ${totalGitHubAccount} GitHub accounts.`;
     this.swalWithBootstrapButtons.fire({
-     title: 'Subscription - '+subscriptionName,
-     text: infoText,
-     // icon: 'success',
-     showConfirmButton: true,
-     showCancelButton: true,
-     allowOutsideClick: false,
-     cancelButtonText: 'Cancel'
-   }).then((res) => {
-    if (res.value) {
-      this.router.navigate([`/balance/add-credit`]);
-    }
-  })
+        title: 'Total GitHub Accounts Overview',
+        text: textData,
+        // icon: 'info',  // Uncomment and choose an appropriate icon if needed
+        showConfirmButton: false,
+        showCancelButton: true,
+        allowOutsideClick: false,
+        cancelButtonText: 'Close'  // Changed from 'Cancel' to 'Close' to better reflect the action
+    }).then((res) => {
+      if (res.value) {
+        this.router.navigate([`/account/add`]);
+      }
+    });
  }
 
-  subscriptionStartDate_Details(subscriptionName: string, startDate: string) {
-     this.swalWithBootstrapButtons.fire({
-      title: 'Subscription - '+subscriptionName,
-      text: "Your subscription start date is - "+startDate,
-      // icon: 'success',
-      showConfirmButton: false,
-      showCancelButton: true,
-      allowOutsideClick: false,
-      cancelButtonText: 'Cancel'
-    })
+  totalRepository(totalRepo: number) {
+    const textData = `You currently manage a total of ${totalRepo} repositories across all your accounts.`;
+    this.swalWithBootstrapButtons.fire({
+        title: 'Total Repositories Overview',
+        text: textData,
+        // icon: 'info',  // Uncomment and choose an appropriate icon if needed
+        showConfirmButton: false,
+        showCancelButton: true,
+        allowOutsideClick: false,
+        cancelButtonText: 'Close'  // Changed from 'Cancel' to 'Close' to better reflect the action
+    });
   }
 
-  subscriptionEndDate_Details(subscriptionName: string, startDate: string) {
-    const textData = this.data.status === 'Inactive' ? "Current plan expired, Your subscription end date was - "+startDate : "Your subscription end date is - "+startDate
+  totalCommits(totalCommits: number) {
+    const textData = `You have made a total of ${totalCommits} commits across all your repositories and accounts.`;
     this.swalWithBootstrapButtons.fire({
-      title: 'Subscription - '+subscriptionName,
+      title: 'Total Commits Overview',
       text: textData,
-      // icon: 'success',
+      // icon: 'info',  // Uncomment and change to 'info' or appropriate icon if needed
       showConfirmButton: false,
       showCancelButton: true,
       allowOutsideClick: false,
-      cancelButtonText: 'Cancel'
+      cancelButtonText: 'Close'
     })
   }
 
-  subscription_Balance(subscriptionName: string, totalHrs: string) {
+  subscription_Balance(totalApprovedPR: number) {
+    const textData = `You have a total of ${totalApprovedPR} approved pull requests across all your repositories.`;
     this.swalWithBootstrapButtons.fire({
-      title: 'Subscription - '+subscriptionName,
-      text: "You are eligible to get a total of "+totalHrs+" support. Please note that when your balance is less than 10 minutes, you will not be able to create requests. Due to the low balance, we suggest adding more credit for a seamless experience.",
-      // icon: 'success',
-      showConfirmButton: false,
-      showCancelButton: true,
-      allowOutsideClick: false,
-      cancelButtonText: 'Cancel'
+        title: 'Total Approved Pull Requests Overview',
+        text: textData,
+        // icon: 'info',  // Uncomment and choose an appropriate icon if needed
+        showConfirmButton: false,
+        showCancelButton: true,
+        allowOutsideClick: false,
+        cancelButtonText: 'Close'  // Changed from 'Cancel' to 'Close' to better reflect the action
     })
   }
 

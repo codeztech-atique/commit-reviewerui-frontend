@@ -2,9 +2,6 @@
 <div id="header" class="app-header" [ngClass]="{ 'app-header-inverse': this.appSettings.appHeaderInverse}">
 	<!-- BEGIN navbar-header -->
 
-	<!-- Push notification Components starts -->
-	<app-notification></app-notification>
-	<!-- Push notification Components ends -->
 
 	<div class="navbar-header">
 		<button type="button" class="navbar-mobile-toggler" *ngIf="this.appSidebarTwo"
@@ -15,8 +12,8 @@
 		</button>
 		<a href="/" class="navbar-brand">
 			<!-- <span class="navbar-logo"></span>  -->
-			<img src="{{logo}}" alt="Analysts24x7" class="img-rounded img-chat company-logo">
-			<span class="company-title"><b>Analysts</b> 24 X 7</span>
+			<img src="{{logo}}" alt="Zoom codeguard" class="img-rounded img-chat company-logo">
+			<span class="company-title"><b>Zoom</b> codeguard</span>
 		</a>
 		<button type="button" class="navbar-mobile-toggler" (click)="toggleAppTopMenuMobile()"
 			*ngIf="this.appSettings.appTopMenu && !this.appSettings.appSidebarNone">
@@ -50,78 +47,12 @@
 	
 	<!-- BEGIN nav -->
 	<div class="navbar-nav nav-bar-height">
-		<div *ngIf="this.currentUser['custom:role'] == 'customer'" class="navbar-item mr-auto">
-			<button [routerLink]="['/file/upload']" [disabled]="userCurrentPlanExpires" [ngStyle]="{'cursor': userCurrentPlanExpires ? 'not-allowed' : 'pointer'}" class="navbar-link d-flex align-items-center btn-background" id="step1">
-				<i class="fa fa-upload"></i>&nbsp;
-				<span class="d-lg-inline d-md-none"> Upload</span>
-			</button>
-		</div>
 		<!-- For Search -->
 		<div class="navbar-item navbar-form">
 			<button type="button" class="btn btn-white btn-xs fixed-height tour-guide-btn" (click)="startTour()" >Start tour</button>
 		</div>
 		<!-- End Search -->
-		<div class="navbar-item dropdown">
-			<a href="javascript:;" data-bs-toggle="dropdown" class="navbar-link dropdown-toggle icon" (click)="isVisited_Notification()">
-				<i [ngClass]="[ (!openNotication) ? 'fa fa-bell' : 'fa fa-bell-slash' ]"></i>
-				<span *ngIf="!isVisited && this.notificationData && this.unreadNotification > 0" class="badge">{{this.unreadNotification}}</span>
-				<!-- <span *ngIf="isVisited" class="badge"></span> -->
-			</a>
-
-			<div class="dropdown-menu media-list dropdown-menu-end">
-				<div *ngIf="this.notificationData" class="dropdown-header">NOTIFICATIONS ({{this.notificationData.length}})</div>
-				
-				<!-- Notification body starts -->
-				<span class="notification-body">
-					<a href="javascript:;" *ngFor="let notification of notificationData; let i = index" class="dropdown-item media">
-						<div class="media-left">
-							<img *ngIf="!notification._source.profileUrl" src="/assets/img/user/user.png" class="media-object" alt="" />
-							<img *ngIf="notification._source.profileUrl" src="{{notification._source.profileUrl}}" class="media-object" alt="" />
-							<!-- <i [ngClass]="[ (!notification._source.isRejected) ? 'far fa-bell text-blue media-object-icon' : 'far fa-times-circle text-red media-object-icon' ]"></i> -->
-							<span *ngIf="notification._source.isRejected">
-								<i class="far fa-times-circle text-red media-object-icon"></i>
-							</span>
-							<span *ngIf="!notification._source.isRejected && !notification._source.taskStatus">
-								<i class="far fa-bell text-blue media-object-icon"></i>
-							</span>
-							<span *ngIf="!notification._source.isRejected && notification._source.taskStatus">
-								<!-- Is Working -->
-								<i *ngIf="notification._source.taskStatus.isWorking" class="fa fa-gear text-blue media-object-icon"></i>
-
-								<!-- Is Completed -->
-								<i *ngIf="notification._source.taskStatus.isCompleted" class="fa fa-check-circle text-blue media-object-icon"></i>
-
-								<!-- Is Rejected -->
-								<i *ngIf="notification._source.taskStatus.isRejected" class="far fa-times-circle text-red media-object-icon"></i>
-
-								<!-- Review Completed -->
-								<i *ngIf="notification._source.taskStatus.isReviewComplete" class="fa fa-check-circle text-theam-color media-object-icon"></i>
-							</span>
-
-							<span *ngIf="!notification._source.isRejected && !notification._source.taskStatus">
-								<i class="far fa-bell text-blue media-object-icon"></i>
-							</span>
-							
-						</div>
-						<div class="media-body">
-							<h6 class="media-heading">{{notification._source.messageHeader}}</h6>
-							<p>{{notification._source.messageBody}} - Order Id ({{notification._source.jobId | slice: -5 }})</p>
-							<div class="text-muted fs-10px">{{notification._source.createdAt | dateAgo}}</div>
-						</div>
-					</a>	
-				</span>
-				
-				
-				<!-- Notification body ends -->
-				<div *ngIf="notificationData && notificationData.length > 0" class="dropdown-footer text-center">
-					<a href="javascript:;" class="text-decoration-none" (click)="viewMoreNotification()">View more</a>
-				</div>
-
-				<div *ngIf="notificationData && notificationData.length == 0" class="dropdown-footer text-center">
-					<p class="text-decoration-none">No new notification</p>
-				</div>
-			</div>
-		</div>
+		
 
 		
 		<div class="navbar-item navbar-user dropdown">
@@ -129,15 +60,11 @@
 				data-bs-toggle="dropdown">
 				<img src="{{userProfilePictureURL}}" alt="" />
 				<span>
-					<span *ngIf="this.currentUser['custom:role'] == 'customer' && !userCurrentPlanExpires" class="d-none d-md-inline">{{this.currentUser['custom:name']}} ( <span class="">{{userCurrentPlan}} account</span> )</span>
-					<span *ngIf="this.currentUser['custom:role'] == 'customer' && userCurrentPlanExpires" class="d-none d-md-inline">{{this.currentUser['custom:name']}} ( <span class="">{{userCurrentPlan}} account expired</span> )</span>
-					<span *ngIf="this.currentUser['custom:role'] == 'bussiness-analysts'" class="d-none d-md-inline">{{this.currentUser['custom:name']}} ( Bussiness Analysts ) </span>
-					<span *ngIf="this.currentUser['custom:role'] == 'data-analysts'" class="d-none d-md-inline">{{this.currentUser['custom:name']}} ( Data Analysts ) </span>
 					<b class="caret"></b>
 				</span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-end me-1">
-				<a routerLink="/edit-profile" class="dropdown-item">Edit Profile</a>
+				<!-- <a routerLink="/edit-profile" class="dropdown-item">Edit Profile</a> -->
 				<!-- <a href="javascript:;" class="dropdown-item d-flex align-items-center">
 					Inbox
 					<span class="badge bg-danger rounded-pill ms-auto pb-4px">2</span>

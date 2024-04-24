@@ -44,65 +44,12 @@ export class RegisterPage implements OnInit, OnDestroy {
     this.renderer.addClass(document.body, 'bg-white');
   }
   ngOnInit(): void {
-    this.titleService.setTitle('Analysts24 X 7 | Registration Page');
+    this.titleService.setTitle('Zoom codeguard | Registration Page');
 
-    this.socialLoginService.authState.subscribe((user) => {
-      this.socialUser = user;
-      // console.log('social user from register', user );
-
-      if(this.socialUser.provider === "GOOGLE") {
-        const token = {
-          "token" : this.socialUser.idToken,
-        }
-
-        const signUpErr = <HTMLElement>document.getElementById('signup-error');
-        this.confirmButtonText = "Please wait";
-        this.showLoader = true;
-        this.isEnabledSubmit = true;
-        signUpErr.style.display = 'none';
-        
-        this.auth.signUpWithGoogle(token)
-        .pipe(first())
-        .subscribe({
-          error: (error) => {
-            //  we are getting user already exist error here, handle it later
-            console.log('Error in register !!!', error);
-            signUpErr.style.display = 'block';
-            this.showLoader = false;
-            this.isEnabledSubmit = false;
-            this.confirmButtonText = "Submit";
-          },
-          complete: () => {
-            this.router.navigate(['/dashboard'])
-          }
-        })
-      } else if(this.socialUser.provider === "FACEBOOK") {
-
-        const token = {
-          "token": this.socialUser.authToken,
-          "email": this.socialUser.email,
-          "name": this.socialUser.name,
-          "id": this.socialUser.id
-        }
-
-        this.auth.signUpWithFB(token)
-        .pipe(first())
-        .subscribe({
-          error: (error) => {
-            //  we are getting user already exist error here, handle it later
-            console.log('Error in register !!!', error);
-          },
-          complete: () => {
-            this.router.navigate(['/dashboard'])
-          }
-        })
-      }
-    });
 
     // for register with linkedin
     this.route.queryParams.subscribe(params => {
       const signUpErr = <HTMLElement>document.getElementById('signup-error');
-      const redirectUri = environment.linkedinRegisterRedirectUri;
       const code = params['code'];
       if (code) {
         // Do something with the 'code' parameter
@@ -110,26 +57,7 @@ export class RegisterPage implements OnInit, OnDestroy {
         this.confirmButtonText = "Please wait";
         this.showLoader = true;
         this.isEnabledSubmit = true;
-        signUpErr.style.display = 'none';
-
-        const body = {
-          code: code,
-          redirectedURI: redirectUri
-        }
-    
-        this.auth.signUpWithLinkedin(body)
-            .pipe(first())
-            .subscribe({
-              error: (error) => {
-                this.isEnabledSubmit = false;
-                signUpErr.style.display = 'block';
-                console.log('Error in register !!!', error);
-              },
-              complete: () => {
-                this.isEnabledSubmit = false;
-                this.router.navigate(['/dashboard'])
-              }
-        })
+        signUpErr.style.display = 'none';       
       }
     });
   }
@@ -223,7 +151,8 @@ export class RegisterPage implements OnInit, OnDestroy {
         "password": this.password,
         "role": "customer",
         "name": this.username,
-        "source": "cognito"
+        "gender": "male",
+        "profile": "https://static.analysts24x7.com/profile/user.png",
       }
       
       this.confirmButtonText = "Please wait";
@@ -241,7 +170,8 @@ export class RegisterPage implements OnInit, OnDestroy {
           },
           complete: () => {
             this.isEnabledSubmit = false;
-            this.router.navigate(['/otp'])
+            this.router.navigate(['/dashboard'])
+            location.reload();
           }
         });
     } else {
@@ -249,14 +179,6 @@ export class RegisterPage implements OnInit, OnDestroy {
     }
   }
 
-  signUpWithLinkedin() {
-    const signUpErr = <HTMLElement>document.getElementById('signup-error');
-    const clientId = environment.linkedinClientId;
-    const redirectUri = encodeURIComponent(environment.linkedinRegisterRedirectUri);
-    const linkedinState = environment.linkedinStateRegistration;
-    const url = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&state=${linkedinState}&scope=profile%20email%20openid&client_id=${clientId}&redirect_uri=${redirectUri}`;
-    window.location.href = url;
-  }
   
   togglePasswordVisibility(){
     this.showPassword = !this.showPassword;

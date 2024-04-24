@@ -3,15 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedservicesService }    from '../../../../services/sharedservices.service';
 import  { addTime, timeDifference, totalHoursRoundOf } from '../../../../utils/index';
 import { CONSTANTS } from '../../../../config/constants';
-import { WebSocketService }  from '../../../../services/websockets.service';
 import Swal from 'sweetalert2';
 @Component({
-  selector: 'task-details',
-  templateUrl: './task-details.html',
-  styleUrls: ['task-details.scss']
+  selector: 'commit-details',
+  templateUrl: './commit-details.html',
+  styleUrls: ['commit-details.scss']
 })
 
-export class Customer_TaskDetails {
+export class Customer_CommitDetails {
   panelTitle: any;
   customSteps: any;
   data: any;
@@ -28,7 +27,7 @@ export class Customer_TaskDetails {
   showLoader: boolean;
   showRejectLoader: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router, private shared: SharedservicesService, private wbsocketService: WebSocketService) {
+  constructor(private route: ActivatedRoute, private router: Router, private shared: SharedservicesService) {
     this.confirmButtonText = "Accept";
     this.rejectButtonText = "Reject";
     this.showLoader = false;
@@ -126,68 +125,10 @@ export class Customer_TaskDetails {
           'You have made it.',
           'success'
         )
-        this.acceptRequest();
       }
     })
   }
 
-  acceptRequest() {
-    const reviewCompletedAcceptDeal = this.data;
-    this.isEnabledSubmit = true;
-    this.confirmButtonText = "Please wait";
-    this.showLoader = true;
-
-    if(this.data.customSteps.length == 6) { // Quick request
-      reviewCompletedAcceptDeal.customSteps[4].status = "completed";
-      reviewCompletedAcceptDeal.customSteps[5].status = "completed";
-      reviewCompletedAcceptDeal.currentStatus = reviewCompletedAcceptDeal.customSteps[5];
-    } else { // Project request
-      reviewCompletedAcceptDeal.customSteps[6].status = "completed";
-      reviewCompletedAcceptDeal.customSteps[7].status = "completed";
-      reviewCompletedAcceptDeal.currentStatus = reviewCompletedAcceptDeal.customSteps[7];
-    }
-
-    reviewCompletedAcceptDeal.currentlyWith = {
-      id: this.data.id,
-      email: this.data.email,
-      name: this.data.name,
-      role: this.data.role
-    };
-
-    reviewCompletedAcceptDeal.status = false; 
-    
-    this.shared.acceptDeal(reviewCompletedAcceptDeal).subscribe({
-      next: async(response) => {
-        const responseData = JSON.parse(JSON.stringify(response));
-        // Websockets integration here --- 
-        // 1. Send push notification to customer, bussiness analysts, and data analysts
-        
-        
-        let messageToSend = this.data.name+""+CONSTANTS.CUSTOMER_REVIEW_COMPLETED.body;
-        let sendRoomMessage = {
-          action: "sendroom",
-          message: {
-            sendRoomToAssignedPeople: true,
-            title: CONSTANTS.CUSTOMER_REVIEW_COMPLETED.title,
-            body: messageToSend
-          },
-          roomid: this.data.id,
-          userid: this.data.userid
-        }
-        
-        this.wbsocketService.send(sendRoomMessage);
-
-      
-        // Redirection with task details
-        setTimeout(() => {
-          this.router.navigate([`/completed/work`]);
-        }, 5000)
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
-  }
 
   rejectWork() {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -213,53 +154,8 @@ export class Customer_TaskDetails {
           'You have made it.',
           'success'
         )
-        this.rejectRequest();
       }
     })
-  }
-  
-  rejectRequest() {
-    this.isEnabledSubmit = true;
-    this.rejectButtonText = "Please wait";
-    this.showRejectLoader = true;
-
-    this.shared.rejectWork(this.data).subscribe({
-      next: async(response) => {
-        const responseData = JSON.parse(JSON.stringify(response));
-        console.log("responseData:", responseData);
-        // Websockets integration here --- 
-        // 1. Send push notification to customer, bussiness analysts, and data analysts
-        
-        
-        let messageToSend = this.data.name+""+CONSTANTS.CUSTOMER_REJECTED_WORK.body;
-        let sendRoomMessage = {
-          action: "sendroom",
-          message: {
-            sendRoomToAssignedPeople: true,
-            title: CONSTANTS.CUSTOMER_REJECTED_WORK.title,
-            body: messageToSend
-          },
-          roomid: this.data.id,
-          userid: this.data.userid
-        }
-        
-        this.wbsocketService.send(sendRoomMessage);
-
-      
-        // Redirection with task details
-        setTimeout(() => {
-          if(this.data.customSteps.length === 6) {
-            this.router.navigate([`/task/quick-request/list`]);
-          } else if(this.data.customSteps.length === 8) {
-            this.router.navigate([`/task/project-request/list`]);
-          }
-          
-        }, 5000)
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
   }
   
 }

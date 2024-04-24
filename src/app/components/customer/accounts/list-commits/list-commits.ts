@@ -3,12 +3,12 @@ import { Subject } from 'rxjs';
 import { SharedservicesService }    from '../../../../services/sharedservices.service';
 import { CONSTANTS } from '../../../../config/constants';
 @Component({
-  selector: 'project-request',
-  templateUrl: './project-request.html',
-  styleUrls: ['./project-request.scss']
+  selector: 'list-commits',
+  templateUrl: './list-commits.html',
+  styleUrls: ['./list-commits.scss']
 })
 
-export class Customer_ProjectRequest_List implements OnInit{
+export class List_Commits implements OnInit{
   listItems : any;
   fromPage: Number;
   totalSize: Number;

@@ -57,7 +57,7 @@ export class SidebarComponent implements AfterViewChecked {
 			// console.log("User:", user)
 			this.currentUser = user;
 
-			this.userProfilePictureURL = this.currentUser['custom:profileurl'];
+			this.userProfilePictureURL = this.currentUser['custom:profile'] ? this.currentUser['custom:profile'] : '';
 
 			// Get the subscription details
 			if(this.currentUser['custom:selectedPlan'] === 'Freemium-USD-Daily') {
@@ -75,7 +75,7 @@ export class SidebarComponent implements AfterViewChecked {
 			} else if(this.currentUser['custom:selectedPlan'] === 'Pro-Plan-Monthly') {
 				 this.userCurrentPlan = `Pro`;
 			} else { // This is enterprise account
-				 this.userCurrentPlan = `Enterprise`;
+				 this.userCurrentPlan = `Freemium`;
 			}
 
 			 

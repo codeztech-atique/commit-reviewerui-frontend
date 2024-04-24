@@ -11,17 +11,7 @@ export interface Userdetails {
     "cognito:roles": Array<String>;
     "custom:mobile": String;
     "custom:language": String;
-    "custom:subscriber_user_id": String;
-    "custom:subscriptionId": String;
-    "custom:selectedPlan": String;
-    "custom:description": String;
     "custom:role": String;
-    "custom:mood": String;
-    "custom:country": String;
-    "custom:state": String,
-    "custom:city": String,
-    "custom:home": String, 
-    "custom:office": String;
     "origin_jti": String,
     "custom:createdBy": String,
     "custom:updatedBy": String;

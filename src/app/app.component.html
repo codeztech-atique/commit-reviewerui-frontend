@@ -1,5 +1,3 @@
-<app-notification></app-notification>
-
 <ngx-loading-bar [ngClass]="{ 'top': appSettings.appEmpty }"></ngx-loading-bar>
 
 <!-- BEGIN #app -->
@@ -48,8 +46,6 @@
   	*ngIf="appSettings.appSidebarTwo && !appSettings.appEmpty">
   </sidebar-right>
 
-  <chat *ngIf="this.showChat"></chat>
-  <app-toast class="app-toast"></app-toast>
 
   <div id="content" class="app-content" [ngClass]="appSettings.appContentClass + ' ' + (appSettings.appEmpty ? 'p-0 m-0' : '')">
     <router-outlet></router-outlet>

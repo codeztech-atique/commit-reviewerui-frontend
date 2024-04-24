@@ -46,72 +46,12 @@ export class LoginPage implements OnInit, OnDestroy {
     this.appSettings.appEmpty = true;
   }
 
-  // git 1
-  loginWithGithub(){
-    this.auth.initiateGitHubLogin();
-  }
 
   ngOnInit() { 
-    this.titleService.setTitle('Analysts 24 X 7 | Login Page');
-
-    this.socialLoginService.authState.subscribe((user) => {
-      this.socialUserLogin = user;
-
-    
-      if(this.socialUserLogin.provider === "GOOGLE") {
-        const token = {
-          "token" : this.socialUserLogin.idToken,
-        }
-       
-        const signInErr = <HTMLElement>document.getElementById('login-error');
-        this.confirmButtonText = "Please wait";
-        this.showLoader = true;
-        this.isEnabledSubmit = true;
-        signInErr.style.display = 'none';
-        
-        this.auth.signInWithGoogle(token)
-        .pipe(first())
-        .subscribe({
-          error: (error) => {
-            //  we are getting user already exist error here, handle it later
-            console.log('Error in google Login !!!', error);
-            signInErr.style.display = 'block';
-            this.showLoader = false;
-            this.isEnabledSubmit = false;
-            this.confirmButtonText = "Submit";
-          },
-          complete: () => {
-            this.router.navigate(['/dashboard'])
-          }
-        })
-      } else if(this.socialUserLogin.provider === "FACEBOOK") {
-
-        const token = {
-          "token": this.socialUserLogin.authToken,
-          "email": this.socialUserLogin.email,
-          "name": this.socialUserLogin.name,
-          "id": this.socialUserLogin.id
-        }
-
-        this.auth.signInWithFB(token)
-        .pipe(first())
-        .subscribe({
-          error: (error) => {
-            //  we are getting user already exist error here, handle it later
-            console.log('Error in facebook login !!!', error);
-          },
-          complete: () => {
-            this.router.navigate(['/dashboard'])
-          }
-        })
-      } 
-    });
-
-
+    this.titleService.setTitle('Zoom codeguard | Login Page');
     // for login with linkedin
     this.route.queryParams.subscribe(params => {
       const logInErr = <HTMLElement>document.getElementById('login-error');
-      const redirectUri = environment.linkedinLoginRedirectUri;
       const code = params['code'];
       
       if (code) {
@@ -121,26 +61,7 @@ export class LoginPage implements OnInit, OnDestroy {
         this.isEnabledSubmit = true;
         logInErr.style.display = 'none';
 
-        const body = {
-          code: code,
-          redirectedURI: redirectUri
-        }
 
-        this.auth.signInWithLinkedin(body)
-            .pipe(first())
-            .subscribe({
-              error: (error) => {
-                logInErr.style.display = 'block';
-                this.showLoader = false;
-                this.isEnabledSubmit = false;
-                this.confirmButtonText = "Submit";
-                console.log('Error in login !!!', error);
-              },
-              complete: () => {
-                this.isEnabledSubmit = false;
-                this.router.navigate(['/dashboard'])
-              }
-        })
       }
     });
   }
@@ -199,24 +120,8 @@ export class LoginPage implements OnInit, OnDestroy {
     }
   }
 
-  signInWithGoogle(): void {
-    this.socialLoginService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
-
-  signInWithFB(): void {
-    this.socialLoginService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  }
-
   signOut(): void {
     this.socialLoginService.signOut();
-  }
-
-  signInWithLinkedin(){
-    const clientId = environment.linkedinClientId;
-    const redirectUri = encodeURIComponent(environment.linkedinLoginRedirectUri);
-    const linkedinState = environment.linkedinStateLogin;
-    const url = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&state=${linkedinState}&scope=profile%20email%20openid&client_id=${clientId}&redirect_uri=${redirectUri}`;
-    window.location.href = url;
   }
 
   checkm(e) {

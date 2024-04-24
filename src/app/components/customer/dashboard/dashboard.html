@@ -1,4 +1,3 @@
-<app-notification></app-notification>
 <!-- BEGIN breadcrumb -->
 <ol class="breadcrumb float-xl-end">
 	<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
@@ -13,136 +12,66 @@
 <!-- END page-header -->
 
 <!-- BEGIN row -->
-<div class="row" id="step2">
-	<!-- BEGIN col-3 -->
-	<div class="col-xl-3 col-md-6">
-		<div class="widget widget-stats bg-green">
-			<div class="stats-icon"><i class="fa fa-desktop"></i></div>
-			<div class="stats-info">
-				<h4>CURRENT PLAN</h4>
-				<p *ngIf="data" class="dashboard-card-p">{{data.subscriptionName}}</p>	
-				<p *ngIf="!data" class="dashboard-card-p">-</p>	
-			</div>
-			<div class="stats-link">
-				<a (click)="subscriptionDetails(data.subscriptionName)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-			</div>
-		</div>
-	</div>
-	<!-- END col-3 -->
-	<!-- BEGIN col-3 -->
-	<div class="col-xl-3 col-md-6">
-		<div class="widget widget-stats bg-info">
-			<div class="stats-icon"><i class="fa fa-calendar-check"></i></div>
-			<div class="stats-info">
-				<h4>SUBSCIPTION START DATE</h4>
-				<p *ngIf="subscriptionStartDate" class="dashboard-card-p">{{subscriptionStartDate}}</p>	
-				<p *ngIf="!subscriptionStartDate" class="dashboard-card-p">-</p>	
-			</div>
-			<div class="stats-link">
-				<a (click)="subscriptionStartDate_Details(data.subscriptionName, subscriptionStartDate)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-			</div>
-		</div>
-	</div>
-	<!-- END col-3 -->
-	<!-- BEGIN col-3 -->
-	<div class="col-xl-3 col-md-6">
-		<div class="widget widget-stats bg-orange">
-			<div class="stats-icon"><i class="fa fa-calendar-xmark"></i></div>
-			<div class="stats-info">
-				<h4>SUBSCIPTION END DATE</h4>
-				<p *ngIf="subscriptionEndDate" class="dashboard-card-p">{{subscriptionEndDate}}</p>	
-				<p *ngIf="!subscriptionEndDate" class="dashboard-card-p">-</p>	
-			</div>
-			<div class="stats-link">
-				<a (click)="subscriptionEndDate_Details(data.subscriptionName, subscriptionEndDate)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-			</div>
-		</div>
-	</div>
-	<!-- END col-3 -->
-	<!-- BEGIN col-3 -->
-	<div class="col-xl-3 col-md-6">
-		<div class="widget widget-stats bg-red">
-			<div class="stats-icon"><i class="fas fa-wallet"></i></div>
-			<div class="stats-info">
-				<h4>BALANCE</h4>
-				<p *ngIf="data" class="dashboard-card-p">{{data.totalTime}}</p>	
-				<p *ngIf="!data" class="dashboard-card-p">-</p>	
-			</div>
-			<div class="stats-link">
-				<a (click)="subscription_Balance(data.subscriptionName, data.totalTime)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-			</div>
-		</div>
-	</div>
-	<!-- END col-3 -->
-</div>
-<!-- END row -->
-
-<!-- BEGIN row -->
 <div class="row">
 	<!-- BEGIN col-3 -->
 	<div class="col-xl-3 col-md-6">
-		<div class="widget widget-stats bg-blue" id="step4">
-			<div class="stats-icon"><i class="fa fa-upload"></i></div>
+		<div class="widget widget-stats bg-green" id="step1">
+			<div class="stats-icon"><i class="fab fa-git-square"></i></div>
 			<div class="stats-info">
-				<h4>TOTAL UPLOAD</h4>
-				<p *ngIf="data" class="dashboard-card-p">{{data.totalUploads}}</p>	
+				<h4>TOTAL GITHUB ACCOUNT</h4>
+				<p *ngIf="data" class="dashboard-card-p">{{data.totalGitHubAccount}}</p>	
 				<p *ngIf="!data" class="dashboard-card-p">-</p>	
 			</div>
 			<div class="stats-link">
-				<a (click)="totalUploads(data.totalUploads)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+				<a (click)="totalGithubAccount(data.totalGitHubAccount)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
 			</div>
 		</div>
 	</div>
 	<!-- END col-3 -->
 	<!-- BEGIN col-3 -->
 	<div class="col-xl-3 col-md-6">
-		<div class="widget widget-stats bg-indigo">
-			<div class="stats-icon"><i class="fa fa-user"></i></div>
+		<div class="widget widget-stats bg-info" id="step2">
+			<div class="stats-icon"><i class="fas fa-folder"></i></div>
 			<div class="stats-info">
-				<h4>QUICK REQUEST</h4>
-				<p *ngIf="subscriptionEndDate" class="dashboard-card-p">{{data.totalQuick_Request}}</p>	
-				<p *ngIf="!subscriptionEndDate" class="dashboard-card-p">-</p>	
-			</div>
-			<div class="stats-link">
-				<a [routerLink]='["/task/quick-request/list"]'>View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-			</div>
-		</div>
-	</div>
-	<!-- END col-3 -->
-	<!-- BEGIN col-3 -->
-	<div class="col-xl-3 col-md-6">
-		<div class="widget widget-stats bg-success">
-			<div class="stats-icon"><i class="fa fa-users"></i></div>
-			<div class="stats-info">
-				<h4>PROJECT REQUEST</h4>
-				<p *ngIf="subscriptionStartDate" class="dashboard-card-p">{{data.totalProject_Request}}</p>	
-				<p *ngIf="!subscriptionStartDate" class="dashboard-card-p">-</p>	
-			</div>
-			<div class="stats-link">
-				<a [routerLink]='["/task/project-request/list"]'>View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-			</div>
-		</div>
-	</div>
-	<!-- END col-3 -->
-	
-	<!-- BEGIN col-3 -->
-	<div class="col-xl-3 col-md-6">
-		<div class="widget widget-stats bg-lime" id="step6">
-			<div class="stats-icon"><i class="fa fa-check-circle"></i></div>
-			<div class="stats-info">
-				<h4>COMPLETED WORK</h4>
-				<p *ngIf="data" class="dashboard-card-p">{{data.totalCompleted_Work}}</p>	
+				<h4>TOTAL REPOSITORY</h4>
+				<p *ngIf="data" class="dashboard-card-p">{{data.totalRepository}}</p>	
 				<p *ngIf="!data" class="dashboard-card-p">-</p>	
 			</div>
 			<div class="stats-link">
-				<a [routerLink]='["/completed/work"]'>View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+				<a (click)="totalRepository(data.totalRepository)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+			</div>
+		</div>
+	</div>
+	<!-- END col-3 -->
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<div class="widget widget-stats bg-orange" id="step3">
+			<div class="stats-icon"><i class="fab fa-git-alt"></i></div>
+			<div class="stats-info">
+				<h4>TOTAL COMMITS</h4>
+				<p *ngIf="data" class="dashboard-card-p">{{data.totalCommits}}</p>	
+				<p *ngIf="!data" class="dashboard-card-p">-</p>	
+			</div>
+			<div class="stats-link">
+				<a (click)="totalCommits(data.totalCommits)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+			</div>
+		</div>
+	</div>
+	<!-- END col-3 -->
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<div class="widget widget-stats bg-red" id="step4">
+			<div class="stats-icon"><i class="fas fa-check-circle"></i></div>
+			<div class="stats-info">
+				<h4>TOTAL APPROVE PR</h4>
+				<p *ngIf="data" class="dashboard-card-p">{{data.totalApprovedPR}}</p>	
+				<p *ngIf="!data" class="dashboard-card-p">-</p>	
+			</div>
+			<div class="stats-link">
+				<a (click)="subscription_Balance(data.totalApprovedPR)">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
 			</div>
 		</div>
 	</div>
 	<!-- END col-3 -->
 </div>
-<!-- END row -->
-
-<!-- BEGIN row -->
-
 <!-- END row -->

@@ -83,71 +83,6 @@ export class AuthenticationService implements OnInit  {
       }));
     }
 
-    signInWithGoogle(token){
-      const headers = new HttpHeaders({
-        'provider': 'google', 
-      });
-
-      return this.http.post<any>(`${this.uri}/auth/social/login`, token, {headers})
-      .pipe(map(auser => {
-          if (auser) {
-              // store user details and jwt token in local storage to keep user logged in between page refreshes
-              const getUserDetails = getDecodedAccessToken(auser.idToken);
-              getUserDetails['accessToken'] = auser.accessToken;
-              getUserDetails['idToken'] = auser.idToken;
-              // getUserDetails['refreshToken'] = auser.refreshToken;
-              getUserDetails['id'] = auser.id;
-              localStorage.setItem('currentUser', JSON.stringify(getUserDetails));
-              this.currentUserSubject.next(getUserDetails);
-              location.reload();
-          }
-          return auser;
-      }));
-    }
-
-    signInWithLinkedin(body){
-      const headers = new HttpHeaders({
-        'provider': 'linkedin', 
-      });
-
-      return this.http.post<any>(`${this.uri}/auth/social/login`, body, {headers})
-      .pipe(map(auser => {
-          if (auser) {
-              // store user details and jwt token in local storage to keep user logged in between page refreshes
-              const getUserDetails = getDecodedAccessToken(auser.idToken);
-              getUserDetails['accessToken'] = auser.accessToken;
-              getUserDetails['idToken'] = auser.idToken;
-              // getUserDetails['refreshToken'] = auser.refreshToken;
-              getUserDetails['id'] = auser.id;
-              localStorage.setItem('currentUser', JSON.stringify(getUserDetails));
-              this.currentUserSubject.next(getUserDetails);
-              location.reload();
-          }
-          return auser;
-      }));
-    }
-
-    signInWithFB(token){
-      const headers = new HttpHeaders({
-        'provider': 'facebook', 
-      });
-
-      return this.http.post<any>(`${this.uri}/auth/social/login`, token, {headers})
-        .pipe(map(auser => {
-          if (auser) {
-              const getUserDetails = getDecodedAccessToken(auser.idToken);
-              getUserDetails['accessToken'] = auser.accessToken;
-              getUserDetails['idToken'] = auser.idToken;
-              // getUserDetails['refreshToken'] = auser.refreshToken;
-              getUserDetails['id'] = auser.id;
-              localStorage.setItem('currentUser', JSON.stringify(getUserDetails));
-              this.currentUserSubject.next(getUserDetails);
-              location.reload();
-          }
-          return auser;
-      }));
-    }
-
     signUp(user){
       return this.http.post<any>(`${this.uri}/auth/register`, user)
         .pipe(map(auser => {
@@ -161,72 +96,7 @@ export class AuthenticationService implements OnInit  {
               getUserDetails['id'] = auser.id;
               localStorage.setItem('currentUser', JSON.stringify(getUserDetails));
               this.currentUserSubject.next(getUserDetails);
-              // location.reload();  // Important line, Refresh page after login --- We have to refresh all the routes
-          }
-          return auser;
-      }));
-    }
-
-    signUpWithGoogle(token){
-      const headers = new HttpHeaders({
-        'provider': 'google', 
-      });
-
-      return this.http.post<any>(`${this.uri}/auth/social/register`, token, {headers})
-        .pipe(map(auser => {
-          if (auser) {
-              // store user details and jwt token in local storage to keep user logged in between page refreshes
-              const getUserDetails = getDecodedAccessToken(auser.idToken);
-              getUserDetails['accessToken'] = auser.accessToken;
-              getUserDetails['idToken'] = auser.idToken;
-              // getUserDetails['refreshToken'] = auser.refreshToken;
-              getUserDetails['id'] = auser.id;
-              localStorage.setItem('currentUser', JSON.stringify(getUserDetails));
-              this.currentUserSubject.next(getUserDetails);
-              location.reload();
-          }
-          return auser;
-      }));
-    }
-
-    signUpWithFB(token){
-      const headers = new HttpHeaders({
-        'provider': 'facebook', 
-      });
-
-      return this.http.post<any>(`${this.uri}/auth/social/register`, token, {headers})
-        .pipe(map(auser => {
-          if (auser) {
-              const getUserDetails = getDecodedAccessToken(auser.idToken);
-              getUserDetails['accessToken'] = auser.accessToken;
-              getUserDetails['idToken'] = auser.idToken;
-              // getUserDetails['refreshToken'] = auser.refreshToken;
-              getUserDetails['id'] = auser.id;
-              localStorage.setItem('currentUser', JSON.stringify(getUserDetails));
-              this.currentUserSubject.next(getUserDetails);
-              location.reload();
-          }
-          return auser;
-      }));
-    }
-
-    signUpWithLinkedin(body){
-      const headers = new HttpHeaders({
-        'provider': 'linkedin', 
-      });
-
-      return this.http.post<any>(`${this.uri}/auth/social/register`, body, {headers})
-        .pipe(map(auser => {
-          if (auser) {
-              // store user details and jwt token in local storage to keep user logged in between page refreshes
-              const getUserDetails = getDecodedAccessToken(auser.idToken);
-              getUserDetails['accessToken'] = auser.accessToken;
-              getUserDetails['idToken'] = auser.idToken;
-              // getUserDetails['refreshToken'] = auser.refreshToken;
-              getUserDetails['id'] = auser.id;
-              localStorage.setItem('currentUser', JSON.stringify(getUserDetails));
-              this.currentUserSubject.next(getUserDetails);
-              location.reload();
+              location.reload();  // Important line, Refresh page after login --- We have to refresh all the routes
           }
           return auser;
       }));

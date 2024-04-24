@@ -29,7 +29,7 @@ export class ChangePassword implements OnInit, OnDestroy {
   isDisabled: boolean;
 
   ngOnInit(): void {
-    this.titleService.setTitle('Analysts24 X 7 | Change Password Page');
+    this.titleService.setTitle('Zoom codeguard | Change Password Page');
   }
 
   constructor(private router: Router, private route: ActivatedRoute, private renderer: Renderer2, private titleService: Title, private auth: AuthenticationService) {

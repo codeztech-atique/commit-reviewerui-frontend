@@ -28,8 +28,6 @@ import { SidebarComponent }                from './layouts/sidebar/sidebar.compo
 
 import { SidebarRightComponent }           from './layouts/sidebar-right/sidebar-right.component';
 import { PanelComponent }                  from './layouts/panel/panel.component';
-import { PanelChatComponent }              from './layouts/panel-chat/panel-chat.component';
-
 import { FloatSubMenuComponent }           from './layouts/float-sub-menu/float-sub-menu.component';
 
 // Component Module
@@ -38,8 +36,6 @@ import { CountdownModule }                          from 'ngx-countdown';
 import { HighlightModule, HIGHLIGHT_OPTIONS }       from 'ngx-highlightjs';
 import { NgApexchartsModule }              from 'ng-apexcharts';
 import { FullCalendarModule }              from '@fullcalendar/angular';
-import { ChatComponent }                   from './layouts/chat/chat.component';
-import { EditProfile }                     from './layouts/edit-profile/edit-profile.component';
 
 import dayGridPlugin                       from '@fullcalendar/daygrid';
 import timeGridPlugin                      from '@fullcalendar/timegrid';
@@ -77,26 +73,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import { Customer_Dashboard }                 from './components/customer/dashboard/dashboard';
 
 // Customer Upload
-import { Customer_FileUpload }                from './components/customer/files/file-upload/file-upload';
-import { Customer_QuickRequest_List }         from './components/customer/files/quick-request/quick-request';
-import { Customer_ProjectRequest_List }       from './components/customer/files/project-request/project-request';
-import { Customer_TaskDetails }               from './components/customer/files/task-details/task-details';
-
-// Customer Work
-import { Customer_ReviewWork }                from './components/customer/work/review-work/review-work';
-import { Customer_ReviewWorkDetails }         from './components/customer/work/review-work-details/review-work-details';
-import { Customer_CompletedWork }             from './components/customer/work/complete-work/complete-work';
-import { Customer_CompletedWorkDetails }      from './components/customer/work/completed-work-details/completed-work-details';
-
-// Customer Balance
-import { Customer_AddCredit }                 from './components/customer/balance/add-credit/add-credit';
-import { Customer_ManageCard }                from './components/customer/balance/manage-card/manage-card';
-import { Customer_ListTransaction }           from './components/customer/balance/list-transaction/list-transaction';
-
-// Customer Issues
-import { Customer_CreateIssue }               from './components/customer/issues/create-issue/create-issue';
-import { Customer_OpenIssue }                 from './components/customer/issues/open-issue/open-issue';
-import { Customer_CloseIssue }                from './components/customer/issues/close-issue/close-issue';
+import { Add_Account }                from './components/customer/accounts/add-account/add-account';
+import { List_Commits }             from './components/customer/accounts/list-commits/list-commits';
+import { Customer_CommitDetails }               from './components/customer/accounts/commit-details/commit-details';
 
 
 // User Login / Register
@@ -104,16 +83,12 @@ import { LoginPage }               from './auth/login/login';
 import { RegisterPage }            from './auth/register/register';
 import { ForgotPassword }          from './auth/forgot-password/forgot-password';
 import { ChangePassword }          from './auth/change-Password/change-password';     
-import { OtpPage }                 from './auth/otp/otp';   
 import { ToastComponent }          from './layouts/toast/toast.component'; 
 
 // Services
 import { SharedservicesService }     from './services/sharedservices.service';
-import { SocketioService }           from './services/socket.io.service';
 import { ToastService }              from './services/toast.service';
 import { IntroService }              from './services/intro.service';
-import { WebSocketService }          from './services/websockets.service';
-import { NotificationService }       from './services/notification.service';
 import { CommonService }             from './services/common.service';
 
 // Interceptor
@@ -122,7 +97,6 @@ import { ErrorInterceptor }          from './_helpers/error.interceptor';
 
 // Signin for sign in with google and facebook
 import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from '@abacritt/angularx-social-login';
-import { ChargebeeService } from './services/chargebee.service';
 
 @NgModule({
   declarations: [
@@ -133,36 +107,21 @@ import { ChargebeeService } from './services/chargebee.service';
     SidebarRightComponent,
     ToastComponent,
     PanelComponent,
-    PanelChatComponent,
     FloatSubMenuComponent,
     // ThemePanelComponent,
     DateAgoPipe,
-    ChatComponent,
    
     // Common Components
     LoginPage,
     RegisterPage,
     ForgotPassword,
     ChangePassword, 
-    OtpPage,
-    EditProfile,
     
     // Customer Components
     Customer_Dashboard,
-    Customer_FileUpload,
-    Customer_QuickRequest_List,
-    Customer_ProjectRequest_List,
-    Customer_TaskDetails,
-    Customer_CompletedWork,
-    Customer_CompletedWorkDetails,
-    Customer_ReviewWork,
-    Customer_ReviewWorkDetails,
-    Customer_AddCredit,
-    Customer_ListTransaction,
-    Customer_ManageCard,
-    Customer_CreateIssue,
-    Customer_OpenIssue,
-    Customer_CloseIssue,
+    Add_Account,
+    List_Commits,
+    Customer_CommitDetails,
   ],
   imports: [
     BrowserModule,
@@ -200,11 +159,7 @@ import { ChargebeeService } from './services/chargebee.service';
     SharedservicesService,
     IntroService,
     ToastService,
-    SocketioService,
-    WebSocketService,
-    NotificationService,
     CommonService,
-    ChargebeeService,
     {
       provide: APP_INITIALIZER,
       useFactory: (appRouting: AppRoutingModule) => () => appRouting.initialize(),
@@ -262,7 +217,7 @@ export class AppModule {
       if (e instanceof NavigationEnd) {
         const firstChild = this.route.snapshot.firstChild;
         if (firstChild && firstChild.data && firstChild.data['title']) {
-          const title = 'Analysts 24 X 7 | ' + firstChild.data['title'];
+          const title = 'Zoom codeguard | ' + firstChild.data['title'];
           this.titleService.setTitle(title);
         }
       }

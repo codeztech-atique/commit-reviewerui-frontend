@@ -1,34 +1,37 @@
-<app-notification></app-notification>
 <!-- BEGIN breadcrumb -->
 <ol class="breadcrumb float-xl-end">
 	<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
 	<li class="breadcrumb-item"><a href="javascript:;">Task</a></li>
-    <li class="breadcrumb-item"><a href="javascript:;">Completed</a></li>
-	<li class="breadcrumb-item active">Details</li>
+    <li class="breadcrumb-item active">Details</li>
 </ol>
 <!-- END breadcrumb -->
 <!-- BEGIN page-header -->
-<h1 class="page-header">Completed Work Details</h1>
+<h1 class="page-header">{{panelTitle}}</h1>
 <!-- END page-header -->
 
 <!-- BEGIN row -->
 <div class="row">
 	<!-- BEGIN col-12 -->
 	<div class="col-xl-12">
+		
 		<!-- BEGIN panel -->
 		<panel>
 			<ng-container header>
-				<h4 class="panel-title">Order Fulfilled
-					<span *ngIf="data" class="badge bg-yellow ms-1 cl-black">{{currentPlan}}</span>
+				<h4 class="panel-title">Order details
+					<span class="badge bg-yellow ms-1 cl-black" *ngIf="data">{{currentPlan}}</span>
 				</h4>
 			</ng-container>
 			<div *ngIf="data" class="nav-wizards-container">
 				<nav class="nav nav-wizards-1 mb-2">
 				  <div class="nav-item col" *ngFor="let step of customSteps; let i = index">
-					<a class="nav-link {{step.status}}" href="javascript:void(0)">
+					<a *ngIf="!data.isRejected" class="nav-link {{step.status}}" href="javascript:void(0)">
 					  <div class="nav-no">{{step.stepNo}}</div>
 					  <div class="nav-text">{{step.stepName}}</div>
 					</a>
+					<a *ngIf="data.isRejected" [ngClass]="[ (step.status == 'completed') ? 'nav-link completed-reject':'nav-link disabled']" href="javascript:void(0)">
+						<div class="nav-no">{{step.stepNo}}</div>
+						<div class="nav-text">{{step.stepName}}</div>
+					  </a>
 				  </div>
 				</nav>
 			</div>
@@ -51,50 +54,88 @@
 					<div class="row mb-15px">	
 						<div class="col-md-6">
 							<div class="input-group">
-								Current status: <span class="badge bg-success ms-1">{{currentStatus.stepName}}</span>	
+								Current status: 
+								<span *ngIf="!data.isRejected" class="badge bg-success ms-1">{{currentStatus.stepName}}</span>	
+								<span *ngIf="data.isRejected" class="badge bg-success ms-1">Rejected</span>	
 							</div>	
 						</div>
 						<div class="col-md-6">
-							<div *ngIf="this.customSteps.length == 6 && currentStatus.stepNo == 6" class="fr-2">
+							<div *ngIf="this.customSteps.length == 6 && this.currentStatus.stepNo == 6" class="fr-2">
 								Currently with: <span class="badge bg-red ms-1">{{data.name}}</span>			
 							</div>	
 
-							<div *ngIf="this.customSteps.length == 6 && currentStatus.stepNo != 6" class="fr-2">
-								Currently with: <span class="badge bg-red ms-1">{{data.currentlyWith.name}}</span>			
+							<div *ngIf="this.customSteps.length == 6 && this.currentStatus.stepNo != 6" class="fr-2">
+								<span *ngIf="!data.isRejected">Currently with:</span> 
+								<span *ngIf="data.isRejected">Rejected by:</span> 
+								<span class="badge bg-red ms-1">{{data.currentlyWith.name}}</span>			
 							</div>	
 
-							<div *ngIf="this.customSteps.length == 8 && currentStatus.stepNo == 8" class="fr-2">
+							<div *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo == 8" class="fr-2">
 								Currently with: <span class="badge bg-red ms-1">{{data.name}}</span>			
 							</div>	
 
-							<div *ngIf="this.customSteps.length == 8 && currentStatus.stepNo != 8" class="fr-2">
-								Currently with: <span class="badge bg-red ms-1">{{data.currentlyWith.name}}</span>			
+							<div *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo != 8" class="fr-2">
+								<span *ngIf="!data.isRejected">Currently with:</span> 
+								<span *ngIf="data.isRejected">Rejected by:</span> 
+								<span class="badge bg-red ms-1">{{data.currentlyWith.name}}</span>			
 							</div>	
 					    </div>      
                     </div>
+
 					<div *ngIf="data.status" class="row mb-15px">	
 						<div class="col-md-8">
-							<a href="javascript:;" class="btn btn-default me-5px"><i class="fa fa-comment"></i> Start chart</a>
+							<!-- <a href="javascript:;" class="btn btn-default me-5px"><i class="fa fa-comment"></i> Start chart</a> -->
 						</div>
-						<div class="col-md-4" *ngIf="this.data.currentStatus.stepNo >= 4">
+
+						<!-- Quick request -->
+						<div *ngIf="this.customSteps.length == 6 && this.currentStatus.stepNo == 3" class="col-md-4">
 							<div class="input-group">
-								<span class="input-group-text">Work Completed</span>
+								<span class="input-group-text">Working since</span>
+								<input type="text" value="{{this.workingOnPast}}" disabled="" class="form-control">
+							</div>
+						</div>
+
+						<div *ngIf="this.customSteps.length == 6 && this.currentStatus.stepNo >= 4" class="col-md-4">
+							<div class="input-group">
+								<span class="input-group-text">Work completed</span>
+								<input type="text" value="{{this.workingOnPast}}" disabled="" class="form-control">
+							</div>
+						</div>
+
+						<!-- Project request -->
+						<div *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo == 4" class="col-md-4">
+							<div class="input-group">
+								<span class="input-group-text">Working since</span>
+								<input type="text" value="{{this.workingOnPast}}" disabled="" class="form-control">
+							</div>
+						</div>
+
+						<div *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo >= 6" class="col-md-4">
+							<div class="input-group">
+								<span class="input-group-text">Work completed</span>
 								<input type="text" value="{{this.workingOnPast}}" disabled="" class="form-control">
 							</div>
 						</div>
 					</div>
 
 					<div *ngIf="!data.status" class="row mb-15px">
-						<div class="col-md-9">
+
+						<div *ngIf="this.customSteps.length == 6" class="col-md-3">
 							<div class="input-group">
+								<span class="input-group-text">Completed in</span>
+								<input type="text" class="form-control" value="{{data.spendTimeBybussinessAnalysts}}" disabled/>
 							</div>
 						</div>
 
-						<div class="col-md-3">
+						<div *ngIf="this.customSteps.length == 8" class="col-md-3">
 							<div class="input-group">
 								<span class="input-group-text">Completed in</span>
-								<input *ngIf="this.customSteps.length == 6" type="text" class="form-control" value="{{data.spendTimeByBussinessAnalysts}}" disabled/>
-								<input *ngIf="this.customSteps.length == 8" type="text" class="form-control" value="{{data.spendTimeByDataAnalysts}}" disabled/>
+								<input type="text" class="form-control" value="{{data.spendTimeByDataAnalysts}}" disabled/>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="input-group">
 							</div>
 						</div>
 
@@ -105,14 +146,14 @@
 							</div>
 						</div>
 
-						<div class="col-md-3" *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo >= 5">
+						<div class="col-md-3" *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo >= 6">
 							<div class="input-group">
 								<span class="input-group-text">Amount spent</span>
 								<input type="text" class="form-control" value="${{data.amountSpend}}" disabled/>
 							</div>
 						</div> -->
 					</div>
- 
+
 					<div class="row mb-15px">	
 						<div class="input-group">
 							<span class="input-group-text input-group-width-xl">Category</span>
@@ -137,12 +178,28 @@
 						</div>
 					</div>
 
+					
+
 					<div class="row mb-15px">	
 						<div class="input-group">
 							<span class="input-group-text input-group-width-xl">Order Id</span>
 							<input type="text" class="form-control" value="{{data.id}}" disabled/>
 						</div>
 					</div>
+
+					<!-- <div class="row mb-15px" *ngIf="this.customSteps.length == 6 && this.currentStatus.stepNo >= 4">	
+						<div class="input-group">
+							<span class="input-group-text input-group-width-xl">Amount Spent</span>
+							<input type="text" class="form-control" value="${{this.amountSpend}}" disabled/>
+						</div>
+					</div>
+
+					<div class="row mb-15px" *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo >= 6">	
+						<div class="input-group">
+							<span class="input-group-text input-group-width-xl">Amount Spent</span>
+							<input type="text" class="form-control" value="${{this.amountSpend}}" disabled/>
+						</div>
+					</div> -->
 
 					<div class="row mb-15px">	
 						<div class="input-group">
@@ -173,7 +230,13 @@
 						</div>
 					</div>
 
-					<div *ngIf="currentStatus.stepNo >= 3" class="row mb-15px">	
+					<div *ngIf="this.currentStatus.stepNo >= 3" class="row mb-15px">	
+						<div class="input-group">
+							<textarea class="form-control" rows="6" disabled>Bussiness analysts comments : {{data.bussinessAnalystsComments}}</textarea>
+						</div>
+					</div>
+
+					<div *ngIf="this.currentStatus.stepNo == 2 && data.isRejected" class="row mb-15px">	
 						<div class="input-group">
 							<textarea class="form-control" rows="6" disabled>Bussiness analysts comments : {{data.bussinessAnalystsComments}}</textarea>
 						</div>
@@ -186,28 +249,28 @@
 						</div>
 					</div>
 
-					<div *ngIf="this.customSteps.length == 6 && currentStatus.stepNo >= 3 && data.bussinessAnalysts_StartedWorking" class="row mb-15px">	
-						<div class="input-group">
-							<span class="input-group-text input-group-width-xl">Started working</span>
-							<input type="text" class="form-control" value="{{data.bussinessAnalysts_StartedWorking | date: 'dd/MM/yyyy hh:mm a' }}" disabled/>
-						</div>
-					</div>
-
-					<div *ngIf="this.customSteps.length == 8 && currentStatus.stepNo >= 4 && data.dataAnalysts_StartedWorking" class="row mb-15px">	
+					<div *ngIf="this.customSteps.length === 8 && this.currentStatus.stepNo >= 6 && data.dataAnalysts_StartedWorking" class="row mb-15px">	
 						<div class="input-group">
 							<span class="input-group-text input-group-width-xl">Started working</span>
 							<input type="text" class="form-control" value="{{data.dataAnalysts_StartedWorking | date: 'dd/MM/yyyy hh:mm a' }}" disabled/>
 						</div>
 					</div>
 
-					<div *ngIf="this.customSteps.length == 6 && currentStatus.stepNo >= 4 && data.bussinessAnalysts_CompletedWork" class="row mb-15px">	
+					<div *ngIf="this.customSteps.length === 6 && this.currentStatus.stepNo >= 3 && data.bussinessAnalysts_StartedWorking" class="row mb-15px">	
+						<div class="input-group">
+							<span class="input-group-text input-group-width-xl">Started working</span>
+							<input type="text" class="form-control" value="{{data.bussinessAnalysts_StartedWorking | date: 'dd/MM/yyyy hh:mm a' }}" disabled/>
+						</div>
+					</div>
+
+					<div *ngIf="this.customSteps.length === 6 && this.currentStatus.stepNo >= 4 && data.bussinessAnalysts_CompletedWork" class="row mb-15px">	
 						<div class="input-group">
 							<span class="input-group-text input-group-width-xl">Work completed</span>
 							<input type="text" class="form-control" value="{{data.bussinessAnalysts_CompletedWork | date: 'dd/MM/yyyy hh:mm a' }}" disabled/>
 						</div>
 					</div>
 
-					<div *ngIf="this.customSteps.length == 8 && currentStatus.stepNo >= 5 && data.dataAnalysts_CompletedWork" class="row mb-15px">	
+					<div *ngIf="this.customSteps.length === 8 && this.currentStatus.stepNo >= 6 && data.dataAnalysts_CompletedWork" class="row mb-15px">	
 						<div class="input-group">
 							<span class="input-group-text input-group-width-xl">Work completed</span>
 							<input type="text" class="form-control" value="{{data.dataAnalysts_CompletedWork | date: 'dd/MM/yyyy hh:mm a' }}" disabled/>
@@ -223,25 +286,50 @@
 						</div>
 					</div>
 
-					<div *ngIf="this.customSteps.length == 8 && data.dataAnalystsUploadedLinks.length > 0" >
+					<div *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo >= 6 && data.dataAnalystsUploadedLinks.length > 0" >
 						<div *ngFor="let customLinks of data.dataAnalystsUploadedLinks; let i = index" class="row mb-15px">	
 							<div class="input-group">
-								<span class="input-group-text input-group-width-xl">Solution by data analysts</span>
+								<span class="input-group-text input-group-width-xl">Solution by analysts</span>
 								<a href="{{customLinks}}" target="_blank" class="form-control">click here</a>
 							</div>
 						</div>
 					</div>
 
-					<div *ngIf="this.customSteps.length == 8 && currentStatus.stepNo >= 5" class="row mb-15px">	
+					<div *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo >= 6" class="row mb-15px">	
 						<div class="input-group">
 							<textarea class="form-control" rows="6" disabled>Data analysts comments : {{data.dataAnalystsComments}}</textarea>
 						</div>
 					</div>
 
-					<!-- <div *ngIf="currentStatus.stepNo == 6" id="footer" class="app-footer mx-0 px-0 text-center">
-						<button type="button" class="btn btn-primary" (click)="reviewSubmit()" [disabled]="isEnabledSubmit"> Accept </button>
-						<button type="button" class="btn btn-danger ml"> Reject </button>
-					</div> -->
+					<div *ngIf="this.customSteps.length == 6 && this.currentStatus.stepNo == 4" id="footer" class="app-footer mx-0 px-0 text-center">
+						<button type="button" class="btn btn-primary fixed-height" (click)="confirmSubmit()" [disabled]="isEnabledSubmit"> 
+							{{confirmButtonText}}
+							<div *ngIf="showLoader" class="loader loader--style3" title="2">
+								<img src="../../../../../assets/img/svg/loader.svg">
+							</div>  
+						</button>
+						<button type="button" class="btn btn-danger ml fixed-height" (click)="rejectWork()" [disabled]="isEnabledSubmit"> 
+							{{rejectButtonText}}
+							<div *ngIf="showRejectLoader" class="loader loader--style3" title="2">
+								<img src="../../../../../assets/img/svg/loader.svg">
+							</div>  
+						</button>
+					</div>
+
+					<div *ngIf="this.customSteps.length == 8 && this.currentStatus.stepNo == 6" id="footer" class="app-footer mx-0 px-0 text-center">
+						<button type="button" class="btn btn-primary fixed-height" (click)="confirmSubmit()" [disabled]="isEnabledSubmit"> 
+							{{confirmButtonText}}
+							<div *ngIf="showLoader" class="loader loader--style3" title="2">
+								<img src="../../../../../assets/img/svg/loader.svg">
+							</div>  
+						</button>
+						<button type="button" class="btn btn-danger ml fixed-height" (click)="rejectWork()" [disabled]="isEnabledSubmit"> 
+							{{rejectButtonText}}
+							<div *ngIf="showRejectLoader" class="loader loader--style3" title="2">
+								<img src="../../../../../assets/img/svg/loader.svg">
+							</div>  
+						</button>
+					</div>
                     
 			    </div> 
 			</div>

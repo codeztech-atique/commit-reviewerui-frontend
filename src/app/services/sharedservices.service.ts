@@ -33,7 +33,7 @@ export class SharedservicesService {
 
   // Get dashboard API
   public getDashboard() {
-    return this.http.get(`${this.uri}/user/dashboard`);
+    return this.http.get(`${this.uri}/api/dashboard`);
   }
 
   // Send verfication code, for verify email

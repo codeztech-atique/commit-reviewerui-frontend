@@ -5,54 +5,20 @@ var customer = [{
   'caret': 'false'
 },
 {
-  'icon': 'fa fa-file',
-  'title': 'Files',
+  'icon': 'fas fa-users',
+  'title': 'Accounts',
   'url': '',
   'label': 'NEW',
   'caret': 'true',
   'submenu': [{
-    'url': 'file/upload',
-    'title': 'Upload',
+    'url': 'account/add',
+    'title': 'Add',
     'highlight': 'true'
   },{
-    'url': 'task/quick-request/list',
-    'title': 'List quick request'
-  },
-  {
-    'url': 'task/project-request/list',
-    'title': 'List project request'
+    'url': 'commit/list',
+    'title': 'List commits'
   }]
-},
-{
-  'icon': 'fa fa-book',
-  'title': 'Work',
-  'url': '',
-  'label': 'NEW',
-  'caret': 'true',
-  'submenu': [
-    // {
-    //   'url': 'review/work',
-    //   'title': 'Review work',
-    //   'highlight': 'true'
-    // },
-    {
-      'url': 'completed/work',
-      'title': 'Completed work',
-      'highlight': 'true'
-    }
-  ]
-},
-{
-    'icon': 'fa fa-usd',
-    'title': 'Balance',
-    'url': '',
-    'caret': 'true',
-    'label': 'NEW',
-    'submenu': [{
-      'url': 'balance/add-credit',
-      'title': 'Add Credit'
-    }]
-  },
+}
 ];
 
 

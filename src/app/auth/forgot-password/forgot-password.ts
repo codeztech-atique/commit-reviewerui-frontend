@@ -29,7 +29,7 @@ export class ForgotPassword implements OnInit, OnDestroy {
     this.renderer.addClass(document.body, 'bg-white');
   }
   ngOnInit(): void {
-    this.titleService.setTitle('Analysts24 X 7 | Forgot Password Page');
+    this.titleService.setTitle('Zoom codeguard | Forgot Password Page');
   }
 
   ngOnDestroy() {

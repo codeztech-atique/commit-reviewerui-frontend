@@ -1,7 +1,6 @@
 import { Component, HostListener, Renderer2, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd, NavigationStart, ActivatedRoute } from '@angular/router';
-import { WebSocketService } from './services/websockets.service';
 import { IntroService } from './services/intro.service';
 import { Subscription } from 'rxjs';
 import appSettings from './config/app-settings';
@@ -30,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
 	appHasScroll;
 	userInfo: any;
   	
-	constructor(private titleService: Title, private introService: IntroService, private router: Router, private renderer: Renderer2, private authenticationService: AuthenticationService, private wbsocketService: WebSocketService, private appRoutingModule: AppRoutingModule) {
+	constructor(private titleService: Title, private introService: IntroService, private router: Router, private renderer: Renderer2, private authenticationService: AuthenticationService, private appRoutingModule: AppRoutingModule) {
 		this.userInfo = JSON.parse(localStorage.getItem('currentUser'));
 		// this.wbsocketService.receiveMessage();
 		this.routeObserverSubscription = this.router.events.subscribe((e) => {
