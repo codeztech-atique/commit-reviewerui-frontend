@@ -1,6 +1,6 @@
-# Commit Reviewer
+# Commit Reviewer Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.8.
+This frontend application is part of the "Commit Reviewer" project. It is developed with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.1 and compatible with Node.js version 21.7.
 
 ## Development server
 
