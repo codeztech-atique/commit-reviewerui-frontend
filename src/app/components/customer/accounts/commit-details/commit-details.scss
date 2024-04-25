@@ -27,9 +27,16 @@
     background: red !important;
 }
 
-
 .commit-details {
     padding-bottom: 20px;
     font-weight: bold;
     color: red;
+}
+
+.comment-block {
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 10px;
+    white-space: pre-wrap; /* Maintains whitespace formatting */
+    word-wrap: break-word; /* Ensures long lines do not break layout */
 }

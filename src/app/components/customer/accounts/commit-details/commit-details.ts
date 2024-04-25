@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedservicesService }    from '../../../../services/sharedservices.service';
-import  { addTime, timeDifference, totalHoursRoundOf } from '../../../../utils/index';
-import { CONSTANTS } from '../../../../config/constants';
+import { marked } from 'marked';
+import * as DOMPurify from 'dompurify';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'commit-details',
@@ -22,6 +22,7 @@ export class Customer_CommitDetails {
   showLoader: boolean;
   showRejectLoader: boolean;
   accountName: any;
+  comments: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private shared: SharedservicesService) {
     this.confirmButtonText = "Accept";
@@ -39,6 +40,7 @@ export class Customer_CommitDetails {
             const responseData = JSON.parse(JSON.stringify(response));
             this.data = responseData;
             this.accountName = this.data.repoName.split('/')[0];
+            this.comments = DOMPurify.sanitize(marked(this.data.comments));
           },
           error: (error) => {
             console.log(error);
