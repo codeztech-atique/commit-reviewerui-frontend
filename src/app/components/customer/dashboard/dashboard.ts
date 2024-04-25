@@ -89,8 +89,8 @@ export class Customer_Dashboard implements OnInit, AfterViewInit {
     }, 500);
   }
 
-  totalGithubAccount(totalGitHubAccount: number) {
-    const textData = `You currently manage a total of ${totalGitHubAccount} GitHub accounts.`;
+  totalGithubAccount(totalGitHubAccountCount: number) {
+    const textData = `You currently manage a total of ${totalGitHubAccountCount} GitHub accounts.`;
     this.swalWithBootstrapButtons.fire({
         title: 'Total GitHub Accounts Overview',
         text: textData,
@@ -106,8 +106,8 @@ export class Customer_Dashboard implements OnInit, AfterViewInit {
     });
  }
 
-  totalRepository(totalRepo: number) {
-    const textData = `You currently manage a total of ${totalRepo} repositories across all your accounts.`;
+  totalRepository(totalRepoCount: number) {
+    const textData = `You currently manage a total of ${totalRepoCount} repositories across all your accounts.`;
     this.swalWithBootstrapButtons.fire({
         title: 'Total Repositories Overview',
         text: textData,
@@ -119,8 +119,8 @@ export class Customer_Dashboard implements OnInit, AfterViewInit {
     });
   }
 
-  totalCommits(totalCommits: number) {
-    const textData = `You have made a total of ${totalCommits} commits across all your repositories and accounts.`;
+  totalCommits(totalCommitsCount: number) {
+    const textData = `You have made a total of ${totalCommitsCount} commits across all your repositories and accounts.`;
     this.swalWithBootstrapButtons.fire({
       title: 'Total Commits Overview',
       text: textData,
@@ -132,8 +132,8 @@ export class Customer_Dashboard implements OnInit, AfterViewInit {
     })
   }
 
-  subscription_Balance(totalApprovedPR: number) {
-    const textData = `You have a total of ${totalApprovedPR} approved pull requests across all your repositories.`;
+  totalApprovedPR(totalApprovedPRCount: number) {
+    const textData = `You have a total of ${totalApprovedPRCount} approved pull requests across all your repositories.`;
     this.swalWithBootstrapButtons.fire({
         title: 'Total Approved Pull Requests Overview',
         text: textData,

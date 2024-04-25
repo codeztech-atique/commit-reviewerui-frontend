@@ -23,7 +23,7 @@ const customerRoutes: Routes = [
   { path: 'dashboard', component: Customer_Dashboard, data: { title: 'Dashboard', role: 'customer' } },
   { path: 'account/add', component: Add_Account, data: { title: 'Add Account', role: 'customer' } },
   { path: 'commit/list', component: List_Commits, data: { title: 'List Commits', role: 'customer' } },
-  { path: 'task/:id/details', component: Customer_CommitDetails, data: { title: 'Commit Details', role: 'customer' } },
+  { path: 'commit/:id/details', component: Customer_CommitDetails, data: { title: 'Commit Details', role: 'customer' } },
 ];
 
 @NgModule({

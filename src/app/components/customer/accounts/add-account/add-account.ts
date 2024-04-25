@@ -25,12 +25,12 @@ import * as uuid from 'uuid';
   selector: 'add-account',
   templateUrl: './add-account.html',
   styleUrls: ['./add-account.scss'],
-  host: {
-    '(document:click)': 'closeDropdownOnclickOutside($event)',
-  }
+  // host: {
+  //   '(document:click)': 'closeDropdownOnclickOutside($event)',
+  // }
 })
 
-export class Add_Account implements OnInit, OnDestroy {
+export class Add_Account implements OnInit {
     confirmButtonText: any;
     currentUser: Userdetails;
     currentUserSubscription: Subscription;
@@ -57,19 +57,7 @@ export class Add_Account implements OnInit, OnDestroy {
 
     }
 
-    @ViewChild('selectCatagory') selectCatagory: ElementRef;
-    @ViewChild('selectApproxTimeline') selectApproxTimeline: ElementRef;
-    @ViewChild('doYouHaveFile') doYouHaveFile: ElementRef;
-    @ViewChild('fileOrLink') fileOrLink: ElementRef;
-    closeDropdownOnclickOutside(event: MouseEvent) {
-      if (!this.selectCatagory?.nativeElement.contains(event.target as Node)) {
-        this.showCategory = false;
-      }
-    }
-
-
-    ngOnDestroy() {
-      // this.upcomingUserSubscription.unsubscribe();
-      this.currentUserSubscription.unsubscribe();
-    }
+    // ngOnDestroy() {
+    //   this.currentUserSubscription.unsubscribe();
+    // }
 }

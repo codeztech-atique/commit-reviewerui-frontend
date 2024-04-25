@@ -32,19 +32,14 @@ export class List_Commits implements OnInit{
       // lengthChange: false, // Remove select options
       
       language: {
-        searchPlaceholder: 'Search your order' // To Search in the search placeholder
+        searchPlaceholder: 'Search your commits' // To Search in the search placeholder
       }
     }
     this.listData();
   }
 
-  listData() {
-    const data = {
-      from: this.fromPage,
-      size: this.totalSize
-    }
-    
-    this.shared.getlistUploads(data).subscribe({
+  listData() {    
+    this.shared.getListOfCommits().subscribe({
       next: async(response) => {
         const responseData = JSON.parse(JSON.stringify(response));
         this.listItems = responseData;

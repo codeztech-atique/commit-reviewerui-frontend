@@ -127,28 +127,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 			fromPage: this.fromPage,
 			pageLimit: this.pageSize
 		}
-	
-		this.shared.listNotification(data).subscribe({
-			next: async(response) => {
-				const responseData = JSON.parse(JSON.stringify(response));
-				this.notificationData = responseData;
-				this.unreadNotification = 0;
-				for(let i = 0; i < this.notificationData.length; i++) {
-					if(this.notificationData[i]._source.status === "send") {
-						this.unreadNotification++;
-					}
-				}
-
-				if(this.unreadNotification > 0) {
-					this.isVisited = false;
-				}
-				console.log("Notication API Result:", this.notificationData);
-			},
-			error: (error) => {
-				this.notificationData = [];
-				console.log(error);
-			}
-		});
 	}
 	
 
